@@ -46,7 +46,7 @@ class FeaturesSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      color: Colors.white,
+      color: Theme.of(context).colorScheme.surface,
       padding: ResponsiveBreakpoints.getResponsivePadding(context),
       child: ResponsiveContainer(
         child: Column(
@@ -67,13 +67,13 @@ class FeaturesSection extends StatelessWidget {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
           decoration: BoxDecoration(
-            color: SkyOpsTheme.primaryBlue.withOpacity(0.1),
+            color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
             borderRadius: BorderRadius.circular(20),
           ),
           child: Text(
             'KEY FEATURES',
             style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: SkyOpsTheme.primaryBlue,
+              color: Theme.of(context).colorScheme.primary,
               fontWeight: FontWeight.w600,
               letterSpacing: 1.2,
             ),
@@ -87,7 +87,7 @@ class FeaturesSection extends StatelessWidget {
           'Comprehensive Airline Operations Management',
           style: Theme.of(context).textTheme.headlineLarge?.copyWith(
             fontWeight: FontWeight.w700,
-            color: SkyOpsTheme.textPrimary,
+            color: Theme.of(context).textTheme.headlineLarge?.color,
           ),
           textAlign: TextAlign.center,
         ),
@@ -100,7 +100,7 @@ class FeaturesSection extends StatelessWidget {
           child: Text(
             'Discover how SkyOpsHub\'s intelligent features transform every aspect of your airline operations, from scheduling to maintenance, with cutting-edge AI technology.',
             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-              color: SkyOpsTheme.textSecondary,
+              color: Theme.of(context).textTheme.bodyLarge?.color,
               height: 1.6,
             ),
             textAlign: TextAlign.center,

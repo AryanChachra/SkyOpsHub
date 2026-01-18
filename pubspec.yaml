@@ -43,6 +43,9 @@ dependencies:
   
   # For launching external URLs
   url_launcher: ^6.2.2
+  
+  # For state management
+  provider: ^6.1.1
 
 dev_dependencies:
   flutter_test:

@@ -81,7 +81,7 @@ class _FeatureCardState extends State<FeatureCard>
             child: Container(
               height: 280,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.surface,
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: _isHovered 
                     ? SkyOpsTheme.hoverShadow 
@@ -121,7 +121,7 @@ class _FeatureCardState extends State<FeatureCard>
                       widget.feature.title,
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.w600,
-                        color: SkyOpsTheme.textPrimary,
+                        color: Theme.of(context).textTheme.titleLarge?.color,
                         height: 1.3,
                       ),
                     ),
@@ -133,7 +133,7 @@ class _FeatureCardState extends State<FeatureCard>
                       child: Text(
                         widget.feature.description,
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: SkyOpsTheme.textSecondary,
+                          color: Theme.of(context).textTheme.bodyMedium?.color,
                           height: 1.5,
                         ),
                       ),
@@ -147,7 +147,7 @@ class _FeatureCardState extends State<FeatureCard>
                           Text(
                             'Learn more',
                             style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                              color: SkyOpsTheme.primaryBlue,
+                              color: Theme.of(context).colorScheme.primary,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
@@ -155,7 +155,7 @@ class _FeatureCardState extends State<FeatureCard>
                           Icon(
                             Icons.arrow_forward,
                             size: 16,
-                            color: SkyOpsTheme.primaryBlue,
+                            color: Theme.of(context).colorScheme.primary,
                           ),
                         ],
                       ),

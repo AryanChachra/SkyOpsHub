@@ -11,7 +11,7 @@ class AboutSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      color: SkyOpsTheme.backgroundColor,
+      color: Theme.of(context).scaffoldBackgroundColor,
       padding: ResponsiveBreakpoints.getResponsivePadding(context),
       child: ResponsiveContainer(
         child: ResponsiveWidget(
@@ -61,13 +61,13 @@ class AboutSection extends StatelessWidget {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
           decoration: BoxDecoration(
-            color: SkyOpsTheme.primaryBlue.withOpacity(0.1),
+            color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
             borderRadius: BorderRadius.circular(20),
           ),
           child: Text(
             'THE CHALLENGE',
             style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: SkyOpsTheme.primaryBlue,
+              color: Theme.of(context).colorScheme.primary,
               fontWeight: FontWeight.w600,
               letterSpacing: 1.2,
             ),
@@ -81,7 +81,7 @@ class AboutSection extends StatelessWidget {
           'Airlines Face Complex Operational Challenges',
           style: Theme.of(context).textTheme.headlineMedium?.copyWith(
             fontWeight: FontWeight.w700,
-            color: SkyOpsTheme.textPrimary,
+            color: Theme.of(context).textTheme.headlineMedium?.color,
           ),
         ),
         
@@ -91,7 +91,7 @@ class AboutSection extends StatelessWidget {
         Text(
           'Modern airline operations involve countless moving parts - from flight scheduling and crew management to resource allocation and real-time disruption handling. Traditional systems struggle to optimize these interconnected processes, leading to:',
           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-            color: SkyOpsTheme.textSecondary,
+            color: Theme.of(context).textTheme.bodyLarge?.color,
             height: 1.6,
           ),
         ),
@@ -133,7 +133,7 @@ class AboutSection extends StatelessWidget {
               child: Text(
                 problem,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: SkyOpsTheme.textSecondary,
+                  color: Theme.of(context).textTheme.bodyMedium?.color,
                   height: 1.5,
                 ),
               ),
@@ -172,7 +172,7 @@ class AboutSection extends StatelessWidget {
           'Transforming Operations with AI Intelligence',
           style: Theme.of(context).textTheme.headlineMedium?.copyWith(
             fontWeight: FontWeight.w700,
-            color: SkyOpsTheme.textPrimary,
+            color: Theme.of(context).textTheme.headlineMedium?.color,
           ),
         ),
         
@@ -182,7 +182,7 @@ class AboutSection extends StatelessWidget {
         Text(
           'SkyOpsHub leverages cutting-edge artificial intelligence and optimization algorithms to revolutionize airline operations management. Our platform provides:',
           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-            color: SkyOpsTheme.textSecondary,
+            color: Theme.of(context).textTheme.bodyLarge?.color,
             height: 1.6,
           ),
         ),
@@ -218,14 +218,14 @@ class AboutSection extends StatelessWidget {
                 'Our Vision',
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.w600,
-                  color: SkyOpsTheme.primaryBlue,
+                  color: Theme.of(context).colorScheme.primary,
                 ),
               ),
               const SizedBox(height: 12),
               Text(
                 'To empower airlines with intelligent, data-driven solutions that simplify complex operations, reduce costs, and enhance operational efficiency while maintaining the highest standards of safety and reliability.',
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: SkyOpsTheme.textPrimary,
+                  color: Theme.of(context).textTheme.bodyMedium?.color,
                   height: 1.6,
                   fontStyle: FontStyle.italic,
                 ),
@@ -266,7 +266,7 @@ class AboutSection extends StatelessWidget {
               child: Text(
                 solution,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: SkyOpsTheme.textSecondary,
+                  color: Theme.of(context).textTheme.bodyMedium?.color,
                   height: 1.5,
                 ),
               ),

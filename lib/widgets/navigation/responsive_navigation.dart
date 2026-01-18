@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../utils/responsive_breakpoints.dart';
 import '../../theme/skyops_theme.dart';
+import '../../providers/theme_provider.dart';
 
 /// Responsive navigation component that adapts to different screen sizes
 /// Desktop: Horizontal navigation bar
@@ -25,12 +27,12 @@ class _ResponsiveNavigationState extends State<ResponsiveNavigation> {
     NavigationItem(id: 'features', label: 'Features'),
     NavigationItem(id: 'value-proposition', label: 'Why SkyOpsHub'),
     NavigationItem(id: 'product-links', label: 'Product'),
-    NavigationItem(id: 'open-source', label: 'Open Source'),
     NavigationItem(id: 'tech-stack', label: 'Technology'),
     NavigationItem(id: 'contact', label: 'Contact'),
   ];
 
   void _handleNavigation(String sectionId) {
+    print('Navigation clicked: $sectionId'); // Debug
     widget.onNavigate(sectionId);
     if (_isDrawerOpen) {
       setState(() {
@@ -52,6 +54,15 @@ class _ResponsiveNavigationState extends State<ResponsiveNavigation> {
     return Container(
       height: 80,
       padding: const EdgeInsets.symmetric(horizontal: 48),
+      decoration: BoxDecoration(
+        color: Colors.transparent,
+        border: Border(
+          bottom: BorderSide(
+            color: Theme.of(context).dividerColor.withOpacity(0.1),
+            width: 1,
+          ),
+        ),
+      ),
       child: Row(
         children: [
           // Logo and brand name
@@ -71,10 +82,18 @@ class _ResponsiveNavigationState extends State<ResponsiveNavigation> {
           
           const SizedBox(width: 24),
           
+          // Theme toggle button
+          _buildThemeToggle(),
+          
+          const SizedBox(width: 16),
+          
           // CTA Button
-          ElevatedButton(
-            onPressed: () => _handleNavigation('contact'),
-            child: const Text('Get Started'),
+          MouseRegion(
+            cursor: SystemMouseCursors.click,
+            child: ElevatedButton(
+              onPressed: () => _handleNavigation('contact'),
+              child: const Text('Get Started'),
+            ),
           ),
         ],
       ),
@@ -85,6 +104,15 @@ class _ResponsiveNavigationState extends State<ResponsiveNavigation> {
     return Container(
       height: 70,
       padding: const EdgeInsets.symmetric(horizontal: 16),
+      decoration: BoxDecoration(
+        color: Colors.transparent,
+        border: Border(
+          bottom: BorderSide(
+            color: Theme.of(context).dividerColor.withOpacity(0.1),
+            width: 1,
+          ),
+        ),
+      ),
       child: Row(
         children: [
           // Logo
@@ -92,16 +120,24 @@ class _ResponsiveNavigationState extends State<ResponsiveNavigation> {
           
           const Spacer(),
           
+          // Theme toggle button
+          _buildThemeToggle(),
+          
+          const SizedBox(width: 8),
+          
           // Hamburger menu button
-          IconButton(
-            onPressed: () {
-              setState(() {
-                _isDrawerOpen = true;
-              });
-              _showMobileMenu();
-            },
-            icon: const Icon(Icons.menu),
-            iconSize: 28,
+          MouseRegion(
+            cursor: SystemMouseCursors.click,
+            child: IconButton(
+              onPressed: () {
+                setState(() {
+                  _isDrawerOpen = true;
+                });
+                _showMobileMenu();
+              },
+              icon: const Icon(Icons.menu),
+              iconSize: 28,
+            ),
           ),
         ],
       ),
@@ -109,48 +145,54 @@ class _ResponsiveNavigationState extends State<ResponsiveNavigation> {
   }
 
   Widget _buildLogo({bool compact = false}) {
-    return GestureDetector(
-      onTap: () => widget.onNavigate('hero'),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          // Logo image
-          Image.asset(
-            'assets/images/SkyOpsHub-horizontal.png',
-            height: compact ? 32 : 40,
-            fit: BoxFit.contain,
-          ),
-          if (!compact) ...[
-            const SizedBox(width: 12),
-            Text(
-              'SkyOpsHub',
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.w700,
-                color: SkyOpsTheme.primaryBlue,
-              ),
-            ),
-          ],
-        ],
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        onTap: () => widget.onNavigate('hero'),
+        child: Image.asset(
+          'assets/images/SkyOpsHub-horizontal-wbg.png',
+          height: compact ? 60 : 80,
+          fit: BoxFit.contain,
+        ),
       ),
     );
   }
 
   Widget _buildNavItem(NavigationItem item) {
-    return TextButton(
-      onPressed: () => _handleNavigation(item.id),
-      style: TextButton.styleFrom(
-        foregroundColor: SkyOpsTheme.textPrimary,
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(6),
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: TextButton(
+        onPressed: () => _handleNavigation(item.id),
+        style: TextButton.styleFrom(
+          foregroundColor: Theme.of(context).textTheme.bodyMedium?.color,
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(6),
+          ),
+        ),
+        child: Text(
+          item.label,
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+            fontWeight: FontWeight.w500,
+          ),
         ),
       ),
-      child: Text(
-        item.label,
-        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-          fontWeight: FontWeight.w500,
-        ),
-      ),
+    );
+  }
+
+  Widget _buildThemeToggle() {
+    return Consumer<ThemeProvider>(
+      builder: (context, themeProvider, child) {
+        return MouseRegion(
+          cursor: SystemMouseCursors.click,
+          child: IconButton(
+            onPressed: () => themeProvider.toggleTheme(),
+            icon: Icon(themeProvider.themeIcon),
+            tooltip: 'Theme: ${themeProvider.themeModeName}',
+            iconSize: 24,
+          ),
+        );
+      },
     );
   }
 
@@ -193,14 +235,17 @@ class _ResponsiveNavigationState extends State<ResponsiveNavigation> {
               children: [
                 _buildLogo(),
                 const Spacer(),
-                IconButton(
-                  onPressed: () {
-                    setState(() {
-                      _isDrawerOpen = false;
-                    });
-                    Navigator.of(context).pop();
-                  },
-                  icon: const Icon(Icons.close),
+                MouseRegion(
+                  cursor: SystemMouseCursors.click,
+                  child: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        _isDrawerOpen = false;
+                      });
+                      Navigator.of(context).pop();
+                    },
+                    icon: const Icon(Icons.close),
+                  ),
                 ),
               ],
             ),
@@ -227,12 +272,15 @@ class _ResponsiveNavigationState extends State<ResponsiveNavigation> {
                 // CTA Button
                 SizedBox(
                   width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () => _handleNavigation('contact'),
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
+                  child: MouseRegion(
+                    cursor: SystemMouseCursors.click,
+                    child: ElevatedButton(
+                      onPressed: () => _handleNavigation('contact'),
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                      ),
+                      child: const Text('Get Started'),
                     ),
-                    child: const Text('Get Started'),
                   ),
                 ),
               ],

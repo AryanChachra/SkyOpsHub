@@ -78,7 +78,6 @@ class MainLayout extends StatefulWidget {
               FeaturesSection(),
               ValuePropositionSection(),
               ProductLinksSection(),
-              OpenSourceSection(),
               TechStackSection(),
               ContactSection(),
             ]),

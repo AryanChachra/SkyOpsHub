@@ -8,9 +8,11 @@ class FooterWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    
     return Container(
       width: double.infinity,
-      color: SkyOpsTheme.textPrimary,
+      color: isDark ? SkyOpsTheme.darkSurfaceColor : SkyOpsTheme.textPrimary,
       padding: ResponsiveBreakpoints.getResponsivePadding(context),
       child: ResponsiveContainer(
         child: Column(
@@ -23,14 +25,6 @@ class FooterWidget extends StatelessWidget {
                   'assets/images/SkyOpsHub-horizontal.png',
                   height: 32,
                   color: Colors.white,
-                ),
-                const SizedBox(width: 12),
-                Text(
-                  'SkyOpsHub',
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600,
-                  ),
                 ),
               ],
             ),
@@ -68,14 +62,17 @@ class FooterWidget extends StatelessWidget {
   }
 
   Widget _buildFooterLink(BuildContext context, String text) {
-    return TextButton(
-      onPressed: () {
-        // Handle navigation
-      },
-      child: Text(
-        text,
-        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-          color: Colors.white.withOpacity(0.9),
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: TextButton(
+        onPressed: () {
+          // Handle navigation
+        },
+        child: Text(
+          text,
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+            color: Colors.white.withOpacity(0.9),
+          ),
         ),
       ),
     );

@@ -1,32 +1,32 @@
 {
-    "name": "skyopshub_website",
-    "short_name": "skyopshub_website",
+    "name": "SkyOpsHub - AI-Driven Intelligence for Smarter Airline Operations",
+    "short_name": "SkyOpsHub",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "background_color": "#1565C0",
+    "theme_color": "#1565C0",
+    "description": "Transform your airline operations with cutting-edge AI technology. Optimize schedules, reduce costs, and enhance efficiency with our comprehensive operations management platform.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
         {
-            "src": "icons/Icon-192.png",
+            "src": "assets/assets/images/SkyOpsHub-upper.png",
             "sizes": "192x192",
             "type": "image/png"
         },
         {
-            "src": "icons/Icon-512.png",
+            "src": "assets/assets/images/SkyOpsHub-logo.png",
             "sizes": "512x512",
             "type": "image/png"
         },
         {
-            "src": "icons/Icon-maskable-192.png",
+            "src": "assets/assets/images/SkyOpsHub-upper.png",
             "sizes": "192x192",
             "type": "image/png",
             "purpose": "maskable"
         },
         {
-            "src": "icons/Icon-maskable-512.png",
+            "src": "assets/assets/images/SkyOpsHub-logo.png",
             "sizes": "512x512",
             "type": "image/png",
             "purpose": "maskable"

@@ -38,44 +38,45 @@ class _MainLayoutState extends State<MainLayout> {
     super.dispose();
   }
 
-  /// Smooth scroll to a specific section
+  /// Smooth scroll to a specific section using scroll controller
   void scrollToSection(String sectionId) {
-    GlobalKey? targetKey;
+    print('Attempting to scroll to section: $sectionId'); // Debug
+    
+    // Define approximate positions for each section (in pixels)
+    double targetPosition = 0;
     
     switch (sectionId) {
       case 'hero':
-        targetKey = _heroKey;
+        targetPosition = 0;
         break;
       case 'about':
-        targetKey = _aboutKey;
+        targetPosition = 700; // Approximate position after hero
         break;
       case 'features':
-        targetKey = _featuresKey;
+        targetPosition = 1600; // Approximate position after about
         break;
       case 'value-proposition':
-        targetKey = _valuePropositionKey;
+        targetPosition = 2600; // Approximate position after features
         break;
       case 'product-links':
-        targetKey = _productLinksKey;
-        break;
-      case 'open-source':
-        targetKey = _openSourceKey;
+        targetPosition = 3600; // Approximate position after value prop
         break;
       case 'tech-stack':
-        targetKey = _techStackKey;
+        targetPosition = 4700; // Approximate position after open source
         break;
       case 'contact':
-        targetKey = _contactKey;
+        targetPosition = 6100; // Approximate position after tech stack
         break;
     }
 
-    if (targetKey?.currentContext != null) {
-      Scrollable.ensureVisible(
-        targetKey!.currentContext!,
-        duration: const Duration(milliseconds: 800),
-        curve: Curves.easeInOut,
-      );
-    }
+    // Scroll to the calculated position
+    _scrollController.animateTo(
+      targetPosition,
+      duration: const Duration(milliseconds: 800),
+      curve: Curves.easeInOut,
+    );
+    
+    print('Scrolling to position: $targetPosition for section: $sectionId'); // Debug
   }
 
   @override
@@ -91,12 +92,23 @@ class _MainLayoutState extends State<MainLayout> {
             floating: true,
             pinned: true,
             snap: false,
-            backgroundColor: Colors.white.withOpacity(0.95),
+            backgroundColor: Colors.transparent,
+            surfaceTintColor: Colors.transparent,
             elevation: 0,
-            scrolledUnderElevation: 1,
-            shadowColor: Colors.black.withOpacity(0.1),
-            flexibleSpace: ResponsiveNavigation(
-              onNavigate: scrollToSection,
+            scrolledUnderElevation: 0,
+            flexibleSpace: Container(
+              decoration: BoxDecoration(
+                color: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.95),
+                border: Border(
+                  bottom: BorderSide(
+                    color: Theme.of(context).dividerColor.withOpacity(0.1),
+                    width: 1,
+                  ),
+                ),
+              ),
+              child: ResponsiveNavigation(
+                onNavigate: scrollToSection,
+              ),
             ),
           ),
           
@@ -131,12 +143,6 @@ class _MainLayoutState extends State<MainLayout> {
               Container(
                 key: _productLinksKey,
                 child: const ProductLinksSection(),
-              ),
-              
-              // Open Source Section
-              Container(
-                key: _openSourceKey,
-                child: const OpenSourceSection(),
               ),
               
               // Tech Stack Section

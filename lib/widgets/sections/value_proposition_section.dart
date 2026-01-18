@@ -11,7 +11,7 @@ class ValuePropositionSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      color: SkyOpsTheme.backgroundColor,
+      color: Theme.of(context).scaffoldBackgroundColor,
       padding: ResponsiveBreakpoints.getResponsivePadding(context),
       child: ResponsiveContainer(
         child: Column(
@@ -52,7 +52,7 @@ class ValuePropositionSection extends StatelessWidget {
           'Why Airlines Choose SkyOpsHub',
           style: Theme.of(context).textTheme.headlineLarge?.copyWith(
             fontWeight: FontWeight.w700,
-            color: SkyOpsTheme.textPrimary,
+            color: Theme.of(context).textTheme.headlineLarge?.color,
           ),
           textAlign: TextAlign.center,
         ),
@@ -65,7 +65,7 @@ class ValuePropositionSection extends StatelessWidget {
           child: Text(
             'Leading airlines worldwide trust SkyOpsHub to transform their operations. Discover the competitive advantages that set us apart in the aviation technology landscape.',
             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-              color: SkyOpsTheme.textSecondary,
+              color: Theme.of(context).textTheme.bodyLarge?.color,
               height: 1.6,
             ),
             textAlign: TextAlign.center,
@@ -189,7 +189,7 @@ class ValuePropositionSection extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(16),
         boxShadow: SkyOpsTheme.cardShadow,
         border: Border.all(
@@ -222,7 +222,7 @@ class ValuePropositionSection extends StatelessWidget {
                   title,
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.w600,
-                    color: SkyOpsTheme.textPrimary,
+                    color: Theme.of(context).textTheme.titleLarge?.color,
                   ),
                 ),
               ),
@@ -235,7 +235,7 @@ class ValuePropositionSection extends StatelessWidget {
           Text(
             description,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: SkyOpsTheme.textSecondary,
+              color: Theme.of(context).textTheme.bodyMedium?.color,
               height: 1.5,
             ),
           ),
