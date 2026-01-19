@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../utils/responsive_breakpoints.dart';
-import '../../theme/skyops_theme.dart';
 
 /// Enhanced technology stack section with interactive elements and detailed information
 class TechStackSection extends StatefulWidget {
@@ -374,15 +373,19 @@ class _TechCardState extends State<_TechCard>
 
   @override
   Widget build(BuildContext context) {
-    return MouseRegion(
-      onEnter: (_) => _onHover(true),
-      onExit: (_) => _onHover(false),
+    return GestureDetector(
+      onTap: () => _onHover(true),
       child: AnimatedBuilder(
         animation: _hoverController,
         builder: (context, child) {
           return Transform.scale(
             scale: _scaleAnimation.value,
             child: Container(
+              width: double.infinity,
+              constraints: const BoxConstraints(
+                minWidth: 200,
+                minHeight: 180,
+              ),
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.surface,
                 borderRadius: BorderRadius.circular(20),

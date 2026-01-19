@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../utils/responsive_breakpoints.dart';
-import '../../theme/skyops_theme.dart';
 
 /// Enhanced contact section with interactive elements and compelling call-to-action
 class ContactSection extends StatefulWidget {
@@ -79,14 +78,14 @@ class _ContactSectionState extends State<ContactSection>
           ],
         ),
       ),
-      padding: ResponsiveBreakpoints.getResponsivePadding(context),
+      padding: ResponsiveBreakpoints.getSafePadding(context),
       child: ResponsiveContainer(
         child: SlideTransition(
           position: _slideAnimation,
           child: Column(
             children: [
               _buildSectionHeader(context),
-              const SizedBox(height: 48),
+              SizedBox(height: ResponsiveBreakpoints.getResponsiveSpacing(context, base: 32)),
               _buildContactOptions(context),
               // const SizedBox(height: 40),
               // _buildUrgencyMessage(context),
@@ -214,7 +213,7 @@ class _ContactSectionState extends State<ContactSection>
     return Row(
       children: [
         Expanded(child: _buildPrimaryContact(context)),
-        const SizedBox(width: 32),
+        SizedBox(width: ResponsiveBreakpoints.getResponsiveSpacing(context, base: 24)),
         Expanded(child: _buildSocialContact(context)),
       ],
     );
@@ -224,15 +223,18 @@ class _ContactSectionState extends State<ContactSection>
     return Column(
       children: [
         _buildPrimaryContact(context),
-        const SizedBox(height: 24),
+        SizedBox(height: ResponsiveBreakpoints.getResponsiveSpacing(context, base: 16)),
         _buildSocialContact(context),
       ],
     );
   }
 
   Widget _buildPrimaryContact(BuildContext context) {
+    final isMobile = ResponsiveBreakpoints.isMobile(context);
+    final padding = isMobile ? 20.0 : 32.0;
+    
     return Container(
-      padding: const EdgeInsets.all(32),
+      padding: EdgeInsets.all(padding),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
@@ -255,76 +257,81 @@ class _ContactSectionState extends State<ContactSection>
         children: [
           Icon(
             Icons.email,
-            size: 48,
+            size: isMobile ? 36 : 48,
             color: Colors.white,
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: isMobile ? 12 : 16),
           Text(
             'Get Immediate Response',
             style: TextStyle(
               color: Colors.white,
-              fontSize: 20,
+              fontSize: isMobile ? 18 : 20,
               fontWeight: FontWeight.w700,
             ),
+            textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: isMobile ? 6 : 8),
           Text(
             'Our aviation experts respond within 2 hours',
             style: TextStyle(
               color: Colors.white.withOpacity(0.9),
-              fontSize: 14,
+              fontSize: isMobile ? 12 : 14,
             ),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 24),
+          SizedBox(height: isMobile ? 16 : 24),
           GestureDetector(
             onTap: () => _launchURL('mailto:contact@skyopshub.in?subject=Urgent: SkyOpsHub Demo Request'),
-            child: MouseRegion(
-              cursor: SystemMouseCursors.click,
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(25),
+            child: Container(
+              padding: EdgeInsets.symmetric(
+                horizontal: isMobile ? 16 : 24, 
+                vertical: isMobile ? 8 : 12
+              ),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(25),
+              ),
+              child: Text(
+                'contact@skyopshub.in',
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.primary,
+                  fontWeight: FontWeight.w600,
+                  fontSize: isMobile ? 14 : 16,
                 ),
-                child: Text(
-                  'contact@skyopshub.in',
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.primary,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 16,
-                  ),
-                ),
+                overflow: TextOverflow.ellipsis,
               ),
             ),
           ),
-          const SizedBox(height: 16),
-          MouseRegion(
-            cursor: SystemMouseCursors.click,
-            child: ElevatedButton(
-              onPressed: () => _launchURL('mailto:contact@skyopshub.in?subject=Urgent: SkyOpsHub Demo Request&body=I need to see SkyOpsHub in action immediately. Please schedule a demo ASAP.'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-                foregroundColor: Theme.of(context).colorScheme.primary,
-                padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(25),
-                ),
+          SizedBox(height: isMobile ? 12 : 16),
+          ElevatedButton(
+            onPressed: () => _launchURL('mailto:contact@skyopshub.in?subject=Urgent: SkyOpsHub Demo Request&body=I need to see SkyOpsHub in action immediately. Please schedule a demo ASAP.'),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.white,
+              foregroundColor: Theme.of(context).colorScheme.primary,
+              padding: EdgeInsets.symmetric(
+                horizontal: isMobile ? 20 : 32, 
+                vertical: isMobile ? 12 : 16
               ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(Icons.schedule, size: 20),
-                  const SizedBox(width: 8),
-                  Text(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(25),
+              ),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.schedule, size: isMobile ? 16 : 20),
+                SizedBox(width: isMobile ? 6 : 8),
+                Flexible(
+                  child: Text(
                     'Schedule Demo Now',
                     style: TextStyle(
                       fontWeight: FontWeight.w700,
-                      fontSize: 16,
+                      fontSize: isMobile ? 14 : 16,
                     ),
+                    overflow: TextOverflow.ellipsis,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ],
@@ -414,25 +421,22 @@ class _ContactSectionState extends State<ContactSection>
   ) {
     return Column(
       children: [
-        MouseRegion(
-          cursor: SystemMouseCursors.click,
-          child: GestureDetector(
-            onTap: onPressed,
-            child: Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: color.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(
-                  color: color.withOpacity(0.3),
-                  width: 1,
-                ),
+        GestureDetector(
+          onTap: onPressed,
+          child: Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: color.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                color: color.withOpacity(0.3),
+                width: 1,
               ),
-              child: Icon(
-                icon,
-                color: color,
-                size: 24,
-              ),
+            ),
+            child: Icon(
+              icon,
+              color: color,
+              size: 24,
             ),
           ),
         ),

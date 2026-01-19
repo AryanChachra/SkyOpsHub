@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../utils/responsive_breakpoints.dart';
-import '../../theme/skyops_theme.dart';
 import '../../providers/theme_provider.dart';
 
 /// Responsive navigation component that adapts to different screen sizes
@@ -51,107 +50,132 @@ class _ResponsiveNavigationState extends State<ResponsiveNavigation> {
   }
 
   Widget _buildDesktopNavigation() {
-    return Container(
-      height: 80,
-      padding: const EdgeInsets.symmetric(horizontal: 48),
-      decoration: BoxDecoration(
-        color: Colors.transparent,
-        border: Border(
-          bottom: BorderSide(
-            color: Theme.of(context).dividerColor.withOpacity(0.1),
-            width: 1,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        if (constraints.maxWidth <= 0) {
+          return Container(
+            height: 80,
+            width: 100,
+            child: const Center(child: CircularProgressIndicator()),
+          );
+        }
+        
+        return Container(
+          height: 80,
+          padding: EdgeInsets.symmetric(
+            horizontal: ResponsiveBreakpoints.getSafePadding(context).horizontal,
           ),
-        ),
-      ),
-      child: Row(
-        children: [
-          // Logo and brand name
-          _buildLogo(),
-          
-          const Spacer(),
-          
-          // Navigation items
-          Row(
-            children: _navigationItems.map((item) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: _buildNavItem(item),
-              );
-            }).toList(),
-          ),
-          
-          const SizedBox(width: 24),
-          
-          // Theme toggle button
-          _buildThemeToggle(),
-          
-          const SizedBox(width: 16),
-          
-          // CTA Button
-          MouseRegion(
-            cursor: SystemMouseCursors.click,
-            child: ElevatedButton(
-              onPressed: () => _handleNavigation('contact'),
-              child: const Text('Get Started'),
+          decoration: BoxDecoration(
+            color: Colors.transparent,
+            border: Border(
+              bottom: BorderSide(
+                color: Theme.of(context).dividerColor.withOpacity(0.1),
+                width: 1,
+              ),
             ),
           ),
-        ],
-      ),
+          child: Row(
+            children: [
+              // Logo and brand name
+              _buildLogo(),
+              
+              const Spacer(),
+              
+              // Navigation items - only show on larger screens
+              if (constraints.maxWidth > 900) ...[
+                Row(
+                  children: _navigationItems.map((item) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 6),
+                      child: _buildNavItem(item),
+                    );
+                  }).toList(),
+                ),
+                
+                const SizedBox(width: 16),
+              ],
+              
+              // Theme toggle button
+              _buildThemeToggle(),
+              
+              const SizedBox(width: 12),
+              
+              // CTA Button
+              ElevatedButton(
+                onPressed: () => _handleNavigation('contact'),
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                ),
+                child: const Text('Get Started'),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 
   Widget _buildMobileNavigation() {
-    return Container(
-      height: 70,
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      decoration: BoxDecoration(
-        color: Colors.transparent,
-        border: Border(
-          bottom: BorderSide(
-            color: Theme.of(context).dividerColor.withOpacity(0.1),
-            width: 1,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        if (constraints.maxWidth <= 0) {
+          return const SizedBox.shrink();
+        }
+        
+        return Container(
+          height: 70,
+          padding: EdgeInsets.symmetric(
+            horizontal: ResponsiveBreakpoints.getSafePadding(context).horizontal,
           ),
-        ),
-      ),
-      child: Row(
-        children: [
-          // Logo
-          _buildLogo(compact: true),
-          
-          const Spacer(),
-          
-          // Theme toggle button
-          _buildThemeToggle(),
-          
-          const SizedBox(width: 8),
-          
-          // Hamburger menu button
-          MouseRegion(
-            cursor: SystemMouseCursors.click,
-            child: IconButton(
-              onPressed: () {
-                setState(() {
-                  _isDrawerOpen = true;
-                });
-                _showMobileMenu();
-              },
-              icon: const Icon(Icons.menu),
-              iconSize: 28,
+          decoration: BoxDecoration(
+            color: Colors.transparent,
+            border: Border(
+              bottom: BorderSide(
+                color: Theme.of(context).dividerColor.withOpacity(0.1),
+                width: 1,
+              ),
             ),
           ),
-        ],
-      ),
+          child: Row(
+            children: [
+              // Logo
+              _buildLogo(compact: true),
+              
+              const Spacer(),
+              
+              // Theme toggle button
+              _buildThemeToggle(),
+              
+              const SizedBox(width: 8),
+              
+              // Hamburger menu button
+              IconButton(
+                onPressed: () {
+                  setState(() {
+                    _isDrawerOpen = true;
+                  });
+                  _showMobileMenu();
+                },
+                icon: const Icon(Icons.menu),
+                iconSize: 24,
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 
   Widget _buildLogo({bool compact = false}) {
-    return MouseRegion(
-      cursor: SystemMouseCursors.click,
-      child: GestureDetector(
-        onTap: () => widget.onNavigate('hero'),
+    return GestureDetector(
+      onTap: () => widget.onNavigate('hero'),
+      child: Container(
+        constraints: BoxConstraints(
+          maxWidth: compact ? 180 : 240,
+        ),
         child: Image.asset(
           'assets/images/SkyOpsHub-horizontal-wbg.png',
-          height: compact ? 60 : 80,
+          height: compact ? 50 : 70,
           fit: BoxFit.contain,
         ),
       ),
@@ -159,22 +183,19 @@ class _ResponsiveNavigationState extends State<ResponsiveNavigation> {
   }
 
   Widget _buildNavItem(NavigationItem item) {
-    return MouseRegion(
-      cursor: SystemMouseCursors.click,
-      child: TextButton(
-        onPressed: () => _handleNavigation(item.id),
-        style: TextButton.styleFrom(
-          foregroundColor: Theme.of(context).textTheme.bodyMedium?.color,
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(6),
-          ),
+    return TextButton(
+      onPressed: () => _handleNavigation(item.id),
+      style: TextButton.styleFrom(
+        foregroundColor: Theme.of(context).textTheme.bodyMedium?.color,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(6),
         ),
-        child: Text(
-          item.label,
-          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-            fontWeight: FontWeight.w500,
-          ),
+      ),
+      child: Text(
+        item.label,
+        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+          fontWeight: FontWeight.w500,
         ),
       ),
     );
@@ -183,14 +204,11 @@ class _ResponsiveNavigationState extends State<ResponsiveNavigation> {
   Widget _buildThemeToggle() {
     return Consumer<ThemeProvider>(
       builder: (context, themeProvider, child) {
-        return MouseRegion(
-          cursor: SystemMouseCursors.click,
-          child: IconButton(
-            onPressed: () => themeProvider.toggleTheme(),
-            icon: Icon(themeProvider.themeIcon),
-            tooltip: 'Theme: ${themeProvider.themeModeName}',
-            iconSize: 24,
-          ),
+        return IconButton(
+          onPressed: () => themeProvider.toggleTheme(),
+          icon: Icon(themeProvider.themeIcon),
+          tooltip: 'Theme: ${themeProvider.themeModeName}',
+          iconSize: 24,
         );
       },
     );
@@ -208,9 +226,9 @@ class _ResponsiveNavigationState extends State<ResponsiveNavigation> {
   Widget _buildMobileMenuSheet() {
     return Container(
       height: MediaQuery.of(context).size.height * 0.7,
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surface,
+        borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(20),
           topRight: Radius.circular(20),
         ),
@@ -223,7 +241,7 @@ class _ResponsiveNavigationState extends State<ResponsiveNavigation> {
             height: 4,
             margin: const EdgeInsets.only(top: 12),
             decoration: BoxDecoration(
-              color: Colors.grey.shade300,
+              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.3),
               borderRadius: BorderRadius.circular(2),
             ),
           ),
@@ -235,17 +253,14 @@ class _ResponsiveNavigationState extends State<ResponsiveNavigation> {
               children: [
                 _buildLogo(),
                 const Spacer(),
-                MouseRegion(
-                  cursor: SystemMouseCursors.click,
-                  child: IconButton(
-                    onPressed: () {
-                      setState(() {
-                        _isDrawerOpen = false;
-                      });
-                      Navigator.of(context).pop();
-                    },
-                    icon: const Icon(Icons.close),
-                  ),
+                IconButton(
+                  onPressed: () {
+                    setState(() {
+                      _isDrawerOpen = false;
+                    });
+                    Navigator.of(context).pop();
+                  },
+                  icon: const Icon(Icons.close),
                 ),
               ],
             ),
@@ -260,7 +275,9 @@ class _ResponsiveNavigationState extends State<ResponsiveNavigation> {
                   return ListTile(
                     title: Text(
                       item.label,
-                      style: Theme.of(context).textTheme.titleMedium,
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        color: Theme.of(context).textTheme.titleMedium?.color,
+                      ),
                     ),
                     onTap: () => _handleNavigation(item.id),
                     contentPadding: const EdgeInsets.symmetric(vertical: 8),
@@ -272,15 +289,12 @@ class _ResponsiveNavigationState extends State<ResponsiveNavigation> {
                 // CTA Button
                 SizedBox(
                   width: double.infinity,
-                  child: MouseRegion(
-                    cursor: SystemMouseCursors.click,
-                    child: ElevatedButton(
-                      onPressed: () => _handleNavigation('contact'),
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                      ),
-                      child: const Text('Get Started'),
+                  child: ElevatedButton(
+                    onPressed: () => _handleNavigation('contact'),
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
                     ),
+                    child: const Text('Get Started'),
                   ),
                 ),
               ],

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../utils/responsive_breakpoints.dart';
-import '../../theme/skyops_theme.dart';
 
 /// Enhanced product links section with interactive elements and compelling content
 class ProductLinksSection extends StatefulWidget {
@@ -79,16 +78,16 @@ class _ProductLinksSectionState extends State<ProductLinksSection>
           ],
         ),
       ),
-      padding: ResponsiveBreakpoints.getResponsivePadding(context),
+      padding: ResponsiveBreakpoints.getSafePadding(context),
       child: ResponsiveContainer(
         child: SlideTransition(
           position: _slideAnimation,
           child: Column(
             children: [
               _buildSectionHeader(context),
-              const SizedBox(height: 48),
+              SizedBox(height: ResponsiveBreakpoints.getResponsiveSpacing(context, base: 32)),
               _buildInteractiveCards(context),
-              const SizedBox(height: 40),
+              SizedBox(height: ResponsiveBreakpoints.getResponsiveSpacing(context, base: 24)),
               _buildCallToAction(context),
             ],
           ),
@@ -194,7 +193,7 @@ class _ProductLinksSectionState extends State<ProductLinksSection>
     return Row(
       children: [
         Expanded(child: _buildPlatformCard(context)),
-        const SizedBox(width: 32),
+        SizedBox(width: ResponsiveBreakpoints.getResponsiveSpacing(context, base: 24)),
         Expanded(child: _buildGitHubCard(context)),
       ],
     );
@@ -204,7 +203,7 @@ class _ProductLinksSectionState extends State<ProductLinksSection>
     return Column(
       children: [
         _buildPlatformCard(context),
-        const SizedBox(height: 24),
+        SizedBox(height: ResponsiveBreakpoints.getResponsiveSpacing(context, base: 16)),
         _buildGitHubCard(context),
       ],
     );
@@ -303,18 +302,15 @@ class _ProductLinksSectionState extends State<ProductLinksSection>
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 24),
-          MouseRegion(
-            cursor: SystemMouseCursors.click,
-            child: ElevatedButton.icon(
-              onPressed: () => _launchURL('mailto:contact@skyopshub.in?subject=Demo Request'),
-              icon: const Icon(Icons.calendar_today),
-              label: const Text('Schedule Demo'),
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                textStyle: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
+          ElevatedButton.icon(
+            onPressed: () => _launchURL('mailto:contact@skyopshub.in?subject=Demo Request'),
+            icon: const Icon(Icons.calendar_today),
+            label: const Text('Schedule Demo'),
+            style: ElevatedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+              textStyle: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
               ),
             ),
           ),
@@ -403,16 +399,18 @@ class _InteractiveCardState extends State<_InteractiveCard>
 
   @override
   Widget build(BuildContext context) {
-    return MouseRegion(
-      onEnter: (_) => _onHover(true),
-      onExit: (_) => _onHover(false),
+    return GestureDetector(
+      onTap: () => _onHover(true),
       child: AnimatedBuilder(
         animation: _hoverController,
         builder: (context, child) {
           return Transform.scale(
             scale: _scaleAnimation.value,
             child: Container(
-              height: 400,
+              width: double.infinity,
+              constraints: const BoxConstraints(
+                minWidth: 250,
+              ),
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.surface,
                 borderRadius: BorderRadius.circular(20),
@@ -426,6 +424,7 @@ class _InteractiveCardState extends State<_InteractiveCard>
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   // Header with gradient
                   Container(
@@ -466,6 +465,8 @@ class _InteractiveCardState extends State<_InteractiveCard>
                                     fontSize: 20,
                                     fontWeight: FontWeight.w700,
                                   ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                                 const SizedBox(height: 4),
                                 Text(
@@ -475,6 +476,8 @@ class _InteractiveCardState extends State<_InteractiveCard>
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
                                   ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ],
                             ),
@@ -485,73 +488,69 @@ class _InteractiveCardState extends State<_InteractiveCard>
                   ),
                   
                   // Content
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(24),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            widget.description,
-                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color: Theme.of(context).textTheme.bodyMedium?.color,
-                              height: 1.5,
-                            ),
+                  Padding(
+                    padding: const EdgeInsets.all(24),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          widget.description,
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            color: Theme.of(context).textTheme.bodyMedium?.color,
+                            height: 1.5,
                           ),
-                          const SizedBox(height: 16),
-                          
-                          // Features list
-                          ...widget.features.map((feature) {
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: 8),
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.check_circle,
-                                    size: 16,
-                                    color: Theme.of(context).colorScheme.primary,
-                                  ),
-                                  const SizedBox(width: 8),
-                                  Expanded(
-                                    child: Text(
-                                      feature,
-                                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                        color: Theme.of(context).textTheme.bodySmall?.color,
-                                      ),
+                        ),
+                        const SizedBox(height: 16),
+                        
+                        // Features list
+                        ...widget.features.map((feature) {
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 8),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.check_circle,
+                                  size: 16,
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                                const SizedBox(width: 8),
+                                Expanded(
+                                  child: Text(
+                                    feature,
+                                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                      color: Theme.of(context).textTheme.bodySmall?.color,
                                     ),
                                   ),
-                                ],
+                                ),
+                              ],
+                            ),
+                          );
+                        }),
+                        
+                        const SizedBox(height: 24),
+                        
+                        // Action button
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: widget.onPressed,
+                            style: ElevatedButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
                               ),
-                            );
-                          }),
-                          
-                          const Spacer(),
-                          
-                          // Action button
-                          SizedBox(
-                            width: double.infinity,
-                            child: MouseRegion(
-                              cursor: SystemMouseCursors.click,
-                              child: ElevatedButton(
-                                onPressed: widget.onPressed,
-                                style: ElevatedButton.styleFrom(
-                                  padding: const EdgeInsets.symmetric(vertical: 16),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                ),
-                                child: Text(
-                                  widget.buttonText,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 16,
-                                  ),
-                                ),
+                            ),
+                            child: Text(
+                              widget.buttonText,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16,
                               ),
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ],

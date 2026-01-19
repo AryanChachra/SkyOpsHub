@@ -34,8 +34,12 @@ class ResponsiveBreakpoints {
   
   /// Get responsive padding based on device type
   static EdgeInsets getResponsivePadding(BuildContext context) {
-    if (isMobile(context)) {
-      return const EdgeInsets.symmetric(horizontal: 16, vertical: 24);
+    final width = MediaQuery.of(context).size.width;
+    if (width < 360) {
+      // Very small screens
+      return const EdgeInsets.symmetric(horizontal: 12, vertical: 16);
+    } else if (isMobile(context)) {
+      return const EdgeInsets.symmetric(horizontal: 16, vertical: 20);
     } else if (isTablet(context)) {
       return const EdgeInsets.symmetric(horizontal: 32, vertical: 32);
     } else {
@@ -45,12 +49,29 @@ class ResponsiveBreakpoints {
   
   /// Get responsive margin based on device type
   static EdgeInsets getResponsiveMargin(BuildContext context) {
-    if (isMobile(context)) {
-      return const EdgeInsets.symmetric(horizontal: 16, vertical: 16);
+    final width = MediaQuery.of(context).size.width;
+    if (width < 360) {
+      return const EdgeInsets.symmetric(horizontal: 8, vertical: 12);
+    } else if (isMobile(context)) {
+      return const EdgeInsets.symmetric(horizontal: 12, vertical: 16);
     } else if (isTablet(context)) {
       return const EdgeInsets.symmetric(horizontal: 24, vertical: 24);
     } else {
       return const EdgeInsets.symmetric(horizontal: 32, vertical: 32);
+    }
+  }
+  
+  /// Get safe horizontal padding that prevents overflow
+  static EdgeInsets getSafePadding(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final safeHorizontal = (width * 0.05).clamp(8.0, 48.0);
+    
+    if (isMobile(context)) {
+      return EdgeInsets.symmetric(horizontal: safeHorizontal, vertical: 16);
+    } else if (isTablet(context)) {
+      return EdgeInsets.symmetric(horizontal: safeHorizontal, vertical: 24);
+    } else {
+      return EdgeInsets.symmetric(horizontal: safeHorizontal, vertical: 32);
     }
   }
   
@@ -67,13 +88,42 @@ class ResponsiveBreakpoints {
   
   /// Get responsive font size multiplier
   static double getFontSizeMultiplier(BuildContext context) {
-    if (isMobile(context)) {
-      return 0.9;
+    final width = MediaQuery.of(context).size.width;
+    if (width < 360) {
+      return 0.8;
+    } else if (isMobile(context)) {
+      return 0.85;
     } else if (isTablet(context)) {
       return 1.0;
     } else {
       return 1.1;
     }
+  }
+  
+  /// Get responsive spacing between elements
+  static double getResponsiveSpacing(BuildContext context, {double base = 16.0}) {
+    final width = MediaQuery.of(context).size.width;
+    if (width < 360) {
+      return base * 0.6;
+    } else if (isMobile(context)) {
+      return base * 0.75;
+    } else if (isTablet(context)) {
+      return base;
+    } else {
+      return base * 1.25;
+    }
+  }
+  
+  /// Get safe width that prevents overflow
+  static double getSafeWidth(BuildContext context, {double maxWidth = double.infinity}) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    if (screenWidth <= 0) return 100;
+    
+    final padding = getSafePadding(context);
+    final availableWidth = screenWidth - padding.horizontal;
+    final safeWidth = availableWidth.clamp(100.0, double.infinity);
+    
+    return maxWidth == double.infinity ? safeWidth : safeWidth.clamp(100, maxWidth);
   }
   
   /// Get responsive grid column count
@@ -137,21 +187,33 @@ class ResponsiveContainer extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
-    final maxWidth = ResponsiveBreakpoints.getMaxContentWidth(context);
-    final responsivePadding = padding ?? ResponsiveBreakpoints.getResponsivePadding(context);
-    final responsiveMargin = margin ?? ResponsiveBreakpoints.getResponsiveMargin(context);
+    final screenSize = MediaQuery.of(context).size;
     
-    Widget content = Container(
-      constraints: BoxConstraints(maxWidth: maxWidth),
-      padding: responsivePadding,
-      margin: responsiveMargin,
-      child: child,
-    );
-    
-    if (centerContent && !ResponsiveBreakpoints.isMobile(context)) {
-      content = Center(child: content);
+    // Safety check for zero or negative dimensions
+    if (screenSize.width <= 0 || screenSize.height <= 0) {
+      return Container(
+        width: 100,
+        height: 100,
+        child: const Center(child: CircularProgressIndicator()),
+      );
     }
     
-    return content;
+    final maxWidth = ResponsiveBreakpoints.getMaxContentWidth(context);
+    final responsivePadding = padding ?? ResponsiveBreakpoints.getSafePadding(context);
+    final responsiveMargin = margin ?? ResponsiveBreakpoints.getResponsiveMargin(context);
+    
+    return Container(
+      width: double.infinity,
+      constraints: BoxConstraints(
+        maxWidth: maxWidth,
+        minWidth: 0,
+        minHeight: 0,
+      ),
+      padding: responsivePadding,
+      margin: responsiveMargin,
+      child: centerContent && !ResponsiveBreakpoints.isMobile(context)
+          ? Center(child: child)
+          : child,
+    );
   }
 }

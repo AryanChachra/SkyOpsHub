@@ -5,13 +5,12 @@ import '../widgets/sections/about_section.dart';
 import '../widgets/sections/features_section.dart';
 import '../widgets/sections/value_proposition_section.dart';
 import '../widgets/sections/product_links_section.dart';
-import '../widgets/sections/open_source_section.dart';
 import '../widgets/sections/tech_stack_section.dart';
 import '../widgets/sections/contact_section.dart';
 import '../widgets/footer/footer_widget.dart';
 
 /// Main layout widget that contains the entire website structure
-/// Uses CustomScrollView with SliverAppBar for smooth scrolling navigation
+/// Uses simple SingleChildScrollView for better stability
 class MainLayout extends StatefulWidget {
   const MainLayout({super.key});
 
@@ -21,16 +20,6 @@ class MainLayout extends StatefulWidget {
 
 class _MainLayoutState extends State<MainLayout> {
   final ScrollController _scrollController = ScrollController();
-  
-  // Global keys for each section to enable smooth scrolling
-  final GlobalKey _heroKey = GlobalKey();
-  final GlobalKey _aboutKey = GlobalKey();
-  final GlobalKey _featuresKey = GlobalKey();
-  final GlobalKey _valuePropositionKey = GlobalKey();
-  final GlobalKey _productLinksKey = GlobalKey();
-  final GlobalKey _openSourceKey = GlobalKey();
-  final GlobalKey _techStackKey = GlobalKey();
-  final GlobalKey _contactKey = GlobalKey();
 
   @override
   void dispose() {
@@ -41,6 +30,12 @@ class _MainLayoutState extends State<MainLayout> {
   /// Smooth scroll to a specific section using scroll controller
   void scrollToSection(String sectionId) {
     print('Attempting to scroll to section: $sectionId'); // Debug
+    
+    // Safety check for scroll controller
+    if (!_scrollController.hasClients) {
+      print('ScrollController has no clients, skipping scroll');
+      return;
+    }
     
     // Define approximate positions for each section (in pixels)
     double targetPosition = 0;
@@ -69,6 +64,10 @@ class _MainLayoutState extends State<MainLayout> {
         break;
     }
 
+    // Ensure target position is within bounds
+    final maxScrollExtent = _scrollController.position.maxScrollExtent;
+    targetPosition = targetPosition.clamp(0.0, maxScrollExtent);
+
     // Scroll to the calculated position
     _scrollController.animateTo(
       targetPosition,
@@ -82,84 +81,57 @@ class _MainLayoutState extends State<MainLayout> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollView(
-        controller: _scrollController,
-        physics: const BouncingScrollPhysics(),
-        slivers: [
-          // Navigation bar
-          SliverAppBar(
-            expandedHeight: 0,
-            floating: true,
-            pinned: true,
-            snap: false,
-            backgroundColor: Colors.transparent,
-            surfaceTintColor: Colors.transparent,
-            elevation: 0,
-            scrolledUnderElevation: 0,
-            flexibleSpace: Container(
-              decoration: BoxDecoration(
-                color: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.95),
-                border: Border(
-                  bottom: BorderSide(
-                    color: Theme.of(context).dividerColor.withOpacity(0.1),
-                    width: 1,
-                  ),
+      body: Column(
+        children: [
+          // Fixed navigation bar
+          Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.95),
+              border: Border(
+                bottom: BorderSide(
+                  color: Theme.of(context).dividerColor.withOpacity(0.1),
+                  width: 1,
                 ),
               ),
-              child: ResponsiveNavigation(
-                onNavigate: scrollToSection,
-              ),
+            ),
+            child: ResponsiveNavigation(
+              onNavigate: scrollToSection,
             ),
           ),
           
-          // Main content sections
-          SliverList(
-            delegate: SliverChildListDelegate([
-              // Hero Section
-              Container(
-                key: _heroKey,
-                child: const HeroSection(),
+          // Scrollable content
+          Expanded(
+            child: SingleChildScrollView(
+              controller: _scrollController,
+              physics: const ClampingScrollPhysics(),
+              child: Column(
+                children: [
+                  // Hero Section
+                  const HeroSection(),
+                  
+                  // About Section
+                  const AboutSection(),
+                  
+                  // Features Section
+                  const FeaturesSection(),
+                  
+                  // Value Proposition Section
+                  const ValuePropositionSection(),
+                  
+                  // Product Links Section
+                  const ProductLinksSection(),
+                  
+                  // Tech Stack Section
+                  const TechStackSection(),
+                  
+                  // Contact Section
+                  const ContactSection(),
+                  
+                  // Footer
+                  const FooterWidget(),
+                ],
               ),
-              
-              // About Section
-              Container(
-                key: _aboutKey,
-                child: const AboutSection(),
-              ),
-              
-              // Features Section
-              Container(
-                key: _featuresKey,
-                child: const FeaturesSection(),
-              ),
-              
-              // Value Proposition Section
-              Container(
-                key: _valuePropositionKey,
-                child: const ValuePropositionSection(),
-              ),
-              
-              // Product Links Section
-              Container(
-                key: _productLinksKey,
-                child: const ProductLinksSection(),
-              ),
-              
-              // Tech Stack Section
-              Container(
-                key: _techStackKey,
-                child: const TechStackSection(),
-              ),
-              
-              // Contact Section
-              Container(
-                key: _contactKey,
-                child: const ContactSection(),
-              ),
-              
-              // Footer
-              const FooterWidget(),
-            ]),
+            ),
           ),
         ],
       ),

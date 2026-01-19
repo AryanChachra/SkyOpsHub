@@ -70,16 +70,19 @@ class _FeatureCardState extends State<FeatureCard>
 
   @override
   Widget build(BuildContext context) {
-    return MouseRegion(
-      onEnter: (_) => _onHover(true),
-      onExit: (_) => _onHover(false),
+    return GestureDetector(
+      onTap: () => _onHover(true),
       child: AnimatedBuilder(
         animation: _hoverController,
         builder: (context, child) {
           return Transform.scale(
             scale: _scaleAnimation.value,
             child: Container(
-              height: 280,
+              width: double.infinity,
+              constraints: const BoxConstraints(
+                minHeight: 240,
+                minWidth: 200,
+              ),
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.surface,
                 borderRadius: BorderRadius.circular(16),
@@ -88,14 +91,15 @@ class _FeatureCardState extends State<FeatureCard>
                     : SkyOpsTheme.cardShadow,
               ),
               child: Padding(
-                padding: const EdgeInsets.all(32),
+                padding: const EdgeInsets.all(20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     // Icon container
                     Container(
-                      width: 64,
-                      height: 64,
+                      width: 48,
+                      height: 48,
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           begin: Alignment.topLeft,
@@ -105,48 +109,50 @@ class _FeatureCardState extends State<FeatureCard>
                             SkyOpsTheme.accentBlue,
                           ],
                         ),
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(12),
                       ),
                       child: Icon(
                         widget.feature.icon,
                         color: Colors.white,
-                        size: 32,
+                        size: 24,
                       ),
                     ),
                     
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 16),
                     
                     // Title
                     Text(
                       widget.feature.title,
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.w600,
-                        color: Theme.of(context).textTheme.titleLarge?.color,
+                        color: Theme.of(context).textTheme.titleMedium?.color,
                         height: 1.3,
                       ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                     ),
                     
-                    const SizedBox(height: 12),
+                    const SizedBox(height: 8),
                     
                     // Description
-                    Expanded(
-                      child: Text(
-                        widget.feature.description,
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: Theme.of(context).textTheme.bodyMedium?.color,
-                          height: 1.5,
-                        ),
+                    Text(
+                      widget.feature.description,
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: Theme.of(context).textTheme.bodySmall?.color,
+                        height: 1.4,
                       ),
+                      maxLines: 4,
+                      overflow: TextOverflow.ellipsis,
                     ),
                     
                     // Optional link indicator
                     if (widget.feature.linkUrl != null) ...[
-                      const SizedBox(height: 16),
+                      const SizedBox(height: 12),
                       Row(
                         children: [
                           Text(
                             'Learn more',
-                            style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                            style: Theme.of(context).textTheme.labelSmall?.copyWith(
                               color: Theme.of(context).colorScheme.primary,
                               fontWeight: FontWeight.w500,
                             ),
@@ -154,7 +160,7 @@ class _FeatureCardState extends State<FeatureCard>
                           const SizedBox(width: 4),
                           Icon(
                             Icons.arrow_forward,
-                            size: 16,
+                            size: 14,
                             color: Theme.of(context).colorScheme.primary,
                           ),
                         ],

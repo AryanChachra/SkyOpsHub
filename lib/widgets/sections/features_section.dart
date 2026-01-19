@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../utils/responsive_breakpoints.dart';
-import '../../theme/skyops_theme.dart';
 import '../cards/feature_card.dart';
 import '../../models/feature_data.dart';
 
@@ -47,12 +46,12 @@ class FeaturesSection extends StatelessWidget {
     return Container(
       width: double.infinity,
       color: Theme.of(context).colorScheme.surface,
-      padding: ResponsiveBreakpoints.getResponsivePadding(context),
+      padding: ResponsiveBreakpoints.getSafePadding(context),
       child: ResponsiveContainer(
         child: Column(
           children: [
             _buildSectionHeader(context),
-            const SizedBox(height: 48),
+            SizedBox(height: ResponsiveBreakpoints.getResponsiveSpacing(context, base: 32)),
             _buildFeaturesGrid(context),
           ],
         ),
@@ -112,22 +111,30 @@ class FeaturesSection extends StatelessWidget {
 
   Widget _buildFeaturesGrid(BuildContext context) {
     final columns = ResponsiveBreakpoints.getGridColumns(context);
+    final spacing = ResponsiveBreakpoints.getResponsiveSpacing(context, base: 16);
     
     return LayoutBuilder(
       builder: (context, constraints) {
+        if (constraints.maxWidth <= 0) {
+          return const SizedBox.shrink();
+        }
+        
         return Wrap(
-          spacing: 24,
-          runSpacing: 24,
+          spacing: spacing,
+          runSpacing: spacing,
           children: _features.map((feature) {
             double cardWidth;
             
             if (columns == 1) {
               cardWidth = constraints.maxWidth;
             } else if (columns == 2) {
-              cardWidth = (constraints.maxWidth - 24) / 2;
+              cardWidth = (constraints.maxWidth - spacing) / 2;
             } else {
-              cardWidth = (constraints.maxWidth - 48) / 3;
+              cardWidth = (constraints.maxWidth - (spacing * 2)) / 3;
             }
+            
+            // Ensure minimum width
+            cardWidth = cardWidth.clamp(200.0, constraints.maxWidth);
             
             return SizedBox(
               width: cardWidth,

@@ -218,67 +218,61 @@ class _HeroSectionState extends State<HeroSection>
   }
 
   Widget _buildPrimaryCTA() {
-    return MouseRegion(
-      cursor: SystemMouseCursors.click,
-      child: ElevatedButton(
-        onPressed: () => _launchURL('https://app.skyopshub.in'),
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.white,
-          foregroundColor: SkyOpsTheme.primaryBlue,
-          elevation: 4,
-          shadowColor: Colors.black.withOpacity(0.3),
-          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
+    return ElevatedButton(
+      onPressed: () => _launchURL('https://app.skyopshub.in'),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.white,
+        foregroundColor: SkyOpsTheme.primaryBlue,
+        elevation: 4,
+        shadowColor: Colors.black.withOpacity(0.3),
+        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
         ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(Icons.rocket_launch, size: 20, color: SkyOpsTheme.primaryBlue),
-            const SizedBox(width: 8),
-            Text(
-              'Explore the Platform',
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                color: SkyOpsTheme.primaryBlue,
-                fontSize: 16,
-              ),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(Icons.rocket_launch, size: 20, color: SkyOpsTheme.primaryBlue),
+          const SizedBox(width: 8),
+          Text(
+            'Explore the Platform',
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              color: SkyOpsTheme.primaryBlue,
+              fontSize: 16,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 
   Widget _buildSecondaryCTA() {
-    return MouseRegion(
-      cursor: SystemMouseCursors.click,
-      child: OutlinedButton(
-        onPressed: () => _launchURL('https://github.com/skyopshub'),
-        style: OutlinedButton.styleFrom(
-          foregroundColor: Colors.white,
-          side: const BorderSide(color: Colors.white, width: 2),
-          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
+    return OutlinedButton(
+      onPressed: () => _launchURL('https://github.com/skyopshub'),
+      style: OutlinedButton.styleFrom(
+        foregroundColor: Colors.white,
+        side: const BorderSide(color: Colors.white, width: 2),
+        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
         ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(Icons.code, size: 20, color: Colors.white),
-            const SizedBox(width: 8),
-            Text(
-              'View GitHub',
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                color: Colors.white,
-                fontSize: 16,
-              ),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Icon(Icons.code, size: 20, color: Colors.white),
+          const SizedBox(width: 8),
+          Text(
+            'View GitHub',
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              color: Colors.white,
+              fontSize: 16,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
