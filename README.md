@@ -1,163 +1,102 @@
-# SkyOpsHub Marketing Website
+# ✈️ SkyOpsHub
 
-A modern, responsive marketing website for SkyOpsHub - an AI-driven airline operations management platform. Built with Flutter Web for optimal performance and cross-platform compatibility.
-
-## 🚀 Features
-
-- **Responsive Design**: Seamlessly adapts to desktop, tablet, and mobile devices
-- **Dual Theme System**: Light and dark themes with automatic system detection
-- **Interactive Animations**: Smooth hover effects, transitions, and engaging animations
-- **Modern UI Components**: Professional design with compelling call-to-actions
-- **SEO Optimized**: Proper meta tags, structured data, and social media integration
-- **Performance Focused**: Optimized assets and efficient Flutter Web implementation
-
-## 🎨 Sections
-
-- **Hero Section**: Eye-catching introduction with primary CTAs
-- **About Section**: Company overview and mission statement
-- **Features Section**: Key platform capabilities and benefits
-- **Value Proposition**: Why choose SkyOpsHub over competitors
-- **Product Links**: Live platform demo and GitHub repository access
-- **Open Source**: Community contributions and development transparency
-- **Technology Stack**: Detailed technical architecture overview
-- **Contact Section**: Multiple ways to connect and schedule demos
-- **Footer**: Additional navigation and company information
-
-## 🛠️ Technology Stack
-
-- **Frontend**: Flutter Web 3.x
-- **State Management**: Provider pattern
-- **Responsive Framework**: Custom responsive breakpoints
-- **Animations**: Flutter's built-in animation controllers
-- **URL Launcher**: External link handling
-- **Theme System**: Material Design 3 with custom SkyOps branding
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-- Flutter SDK (3.0 or higher)
-- Dart SDK (2.17 or higher)
-- Web browser for testing
-
-### Installation
-
-1. Clone the repository:
-```bash
-git clone https://github.com/skyopshub/skyopshub-website.git
-cd skyopshub-website
-```
-
-2. Install dependencies:
-```bash
-flutter pub get
-```
-
-3. Run the development server:
-```bash
-flutter run -d chrome
-```
-
-4. Build for production:
-```bash
-flutter build web --release
-```
-
-## 📁 Project Structure
-
-```
-lib/
-├── main.dart                 # Application entry point
-├── models/                   # Data models
-├── providers/                # State management
-├── theme/                    # Theme configuration
-├── utils/                    # Utility functions and responsive breakpoints
-└── widgets/
-    ├── cards/               # Reusable card components
-    ├── footer/              # Footer widget
-    ├── navigation/          # Navigation components
-    ├── sections/            # Main page sections
-    └── main_layout.dart     # Main layout wrapper
-```
-
-## 🎯 Key Features Implemented
-
-### Responsive Design
-- Mobile-first approach with breakpoint-based layouts
-- Adaptive navigation (hamburger menu on mobile)
-- Flexible grid systems and responsive containers
-
-### Theme System
-- Light and dark theme variants
-- System theme detection on startup
-- Smooth theme transitions
-- Theme-aware color schemes throughout
-
-### Interactive Elements
-- Hover effects with proper cursor feedback
-- Smooth animations and transitions
-- Interactive cards with scaling effects
-- Engaging call-to-action buttons
-
-### Performance Optimizations
-- Optimized asset loading
-- Efficient widget rebuilding
-- Proper animation disposal
-- Responsive image sizing
-
-## 🌐 Deployment
-
-The website is optimized for deployment on:
-- GitHub Pages
-- Netlify
-- Vercel
-- Firebase Hosting
-- Any static web hosting service
-
-### Build Commands
-
-```bash
-# Development build
-flutter build web
-
-# Production build with optimizations
-flutter build web --release --web-renderer html
-
-# Build with specific base href (for subdirectory deployment)
-flutter build web --release --base-href /your-subdirectory/
-```
-
-## 📱 Browser Support
-
-- Chrome (recommended)
-- Firefox
-- Safari
-- Edge
-- Mobile browsers (iOS Safari, Chrome Mobile)
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🔗 Links
-
-- **Live Website**: [https://skyopshub.in](https://skyopshub.in)
-- **Platform Demo**: [https://app.skyopshub.in](https://app.skyopshub.in)
-- **GitHub Repository**: [https://github.com/skyopshub](https://github.com/skyopshub)
-- **Contact**: [contact@skyopshub.in](mailto:contact@skyopshub.in)
-
-## 📞 Support
-
-For support, email contact@skyopshub.in or join our community discussions.
+**SkyOpsHub** is an AI-powered airline operations management platform designed to streamline, optimize, and automate complex airline operational workflows. It helps airlines reduce operational chaos, improve on-time performance, and ensure regulatory compliance through intelligent decision-making and real-time insights.
 
 ---
 
-Built with ❤️ by the SkyOpsHub team using Flutter Web
+## 🚀 Project Vision
+
+Airline operations involve highly complex, interdependent systems—flight scheduling, crew assignments, aircraft availability, maintenance planning, and regulatory constraints. Manual coordination or legacy tools often lead to inefficiencies, delays, and increased costs.
+
+**SkyOpsHub aims to become a unified operational command center for airlines**, leveraging AI and automation to:
+- Optimize daily operations
+- Reduce disruptions and delays
+- Ensure safety and compliance
+- Improve operational transparency and decision-making
+
+---
+
+## 🧠 Core Idea
+
+SkyOpsHub acts as a **centralized SaaS platform** that integrates operational data from multiple airline systems and applies intelligent optimization models to assist operations teams in planning, monitoring, and responding to real-world scenarios.
+
+Rather than replacing human decision-makers, SkyOpsHub **augments operational teams** by providing smart recommendations, conflict detection, and real-time visibility.
+
+---
+
+## 🔑 Key Features
+
+### ✈️ Intelligent Flight Scheduling
+- AI-assisted flight planning and optimization
+- Conflict detection for aircraft, crew, and slots
+- Scenario-based schedule simulations
+
+### 👨‍✈️ Crew & Resource Management
+- Crew availability and duty-time compliance tracking
+- Smart crew assignment recommendations
+- Resource utilization optimization
+
+### 🛠️ Aircraft & Maintenance Oversight
+- Aircraft availability monitoring
+- Maintenance window planning
+- Regulatory compliance checks
+
+### 📊 Real-Time Operational Dashboard
+- Live operational status monitoring
+- Alerts for disruptions and conflicts
+- Performance and efficiency metrics
+
+### ⚠️ Disruption & Recovery Management
+- Delay and cancellation impact analysis
+- Automated recovery suggestions
+- What-if simulations for operational decisions
+
+### 🧾 Regulatory Compliance
+- Built-in checks for aviation rules and constraints
+- Reduced risk of violations and penalties
+- Audit-friendly operational logs
+
+---
+
+## 🏗️ Platform Architecture (High-Level)
+
+- **Multi-tenant SaaS architecture**
+- Modular and scalable system design
+- Cloud-ready for global airline operations
+- Secure data handling and access control
+
+---
+
+## 🎯 Target Users
+
+- Airline Operations Control Centers (OCC)
+- Flight Operations Managers
+- Crew Scheduling Teams
+- Maintenance Planning Teams
+- Airline Management & Decision Makers
+
+---
+
+## 💡 Why SkyOpsHub?
+
+- Reduces operational inefficiencies and costs
+- Improves punctuality and reliability
+- Enhances decision-making with AI-driven insights
+- Scales from regional to large international airlines
+- Designed with real-world aviation constraints in mind
+
+---
+
+## 🛣️ Roadmap (Planned)
+
+- Advanced AI optimization models
+- Predictive disruption detection
+- Integration with airline operational systems
+- Mobile-first operational dashboards
+- Analytics-driven performance benchmarking
+
+---
+
+## 📌 Project Status
+
+SkyOpsHub is under active development and evolving as a next-generation airline operations platform.
