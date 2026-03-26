@@ -18,9 +18,16 @@
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="SkyOpsHub - AI-Driven Intelligence for Smarter Airline Operations. Transform your airline operations with cutting-edge AI technology.">
-  <meta name="keywords" content="airline operations, AI, aviation, flight scheduling, operations management, SkyOpsHub">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="SkyOpsHub - Reduce flight delay minutes by up to 40%. AI-powered operations intelligence for airlines that demand precision.">
+  <meta name="keywords" content="airline operations, flight delay reduction, crew scheduling, aircraft rotation, turnaround optimization, SkyOpsHub">
   <meta name="author" content="SkyOpsHub">
+
+  <!-- Performance: DNS prefetch for external resources -->
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   <!-- iOS meta tags & icons -->
   <meta name="mobile-web-app-capable" content="yes">
@@ -32,23 +39,85 @@
   <link rel="icon" type="image/png" href="assets/images/SkyOpsHub-upper-wbg.png"/>
   <link rel="shortcut icon" type="image/png" href="assets/images/SkyOpsHub-upper-wbg.png"/>
 
-  <title>SkyOpsHub - AI-Driven Intelligence for Smarter Airline Operations</title>
+  <title>SkyOpsHub - Reduce Flight Delays by 40% | Aviation Operations Intelligence</title>
   <link rel="manifest" href="manifest.json">
 
   <!-- Open Graph meta tags for social sharing -->
-  <meta property="og:title" content="SkyOpsHub - AI-Driven Intelligence for Smarter Airline Operations">
-  <meta property="og:description" content="Transform your airline operations with cutting-edge AI technology. Optimize schedules, reduce costs, and enhance efficiency.">
+  <meta property="og:title" content="SkyOpsHub - Reduce Flight Delays by 40%">
+  <meta property="og:description" content="AI-powered operations intelligence for airlines. Optimize crew scheduling, turnaround times, and on-time performance.">
   <meta property="og:image" content="assets/images/SkyOpsHub-horizontal.png">
   <meta property="og:url" content="https://skyopshub.in">
   <meta property="og:type" content="website">
 
   <!-- Twitter Card meta tags -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="SkyOpsHub - AI-Driven Intelligence for Smarter Airline Operations">
-  <meta name="twitter:description" content="Transform your airline operations with cutting-edge AI technology.">
+  <meta name="twitter:title" content="SkyOpsHub - Reduce Flight Delays by 40%">
+  <meta name="twitter:description" content="AI-powered operations intelligence for airlines that demand precision.">
   <meta name="twitter:image" content="assets/images/SkyOpsHub-horizontal.png">
+
+  <!-- Performance: Critical CSS for loading state -->
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #0A1929;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    #loading {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+      gap: 16px;
+    }
+    #loading-logo {
+      width: 120px;
+      height: auto;
+      opacity: 0.9;
+    }
+    #loading-bar {
+      width: 200px;
+      height: 3px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    #loading-progress {
+      height: 100%;
+      background: #1FB6FF;
+      border-radius: 2px;
+      animation: loading-anim 1.5s ease-in-out infinite;
+    }
+    @keyframes loading-anim {
+      0% { width: 0%; margin-left: 0; }
+      50% { width: 60%; margin-left: 20%; }
+      100% { width: 0%; margin-left: 100%; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #loading-progress { animation: none; width: 50%; }
+    }
+  </style>
 </head>
 <body>
+  <!-- Loading indicator shown while Flutter initializes -->
+  <div id="loading">
+    <img id="loading-logo" src="assets/images/SkyOpsHub-upper-wbg.png" alt="SkyOpsHub" onerror="this.style.display='none'">
+    <div id="loading-bar"><div id="loading-progress"></div></div>
+  </div>
+
+  <script>
+    // Remove loading indicator once Flutter is ready
+    window.addEventListener('flutter-first-frame', function() {
+      var loading = document.getElementById('loading');
+      if (loading) {
+        loading.style.transition = 'opacity 0.3s ease';
+        loading.style.opacity = '0';
+        setTimeout(function() { loading.remove(); }, 300);
+      }
+    });
+  </script>
+
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>

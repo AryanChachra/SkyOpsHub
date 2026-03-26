@@ -4,25 +4,29 @@ import 'package:google_fonts/google_fonts.dart';
 /// SkyOpsHub theme system with aviation-inspired color palette
 /// Implements Material 3 design with custom aviation colors
 class SkyOpsTheme {
-  // Aviation-inspired color palette
-  static const Color primaryBlue = Color(0xFF1565C0); // Deep blue
-  static const Color lightBlue = Color(0xFF42A5F5); // Light blue
-  static const Color darkBlue = Color(0xFF0D47A1); // Dark blue
+  // Aviation-inspired color palette (NASA/Aviation blues)
+  static const Color primaryBlue = Color(0xFF0B3D91); // NASA/Aviation blue
+  static const Color accentBlue = Color(0xFF1FB6FF); // Bright accent for interactive elements
   static const Color backgroundColor = Color(0xFFFAFAFA); // Off-white
   static const Color surfaceColor = Colors.white;
-  static const Color accentBlue = Color(0xFF2196F3); // Accent blue
   static const Color textPrimary = Color(0xFF212121); // Dark gray
   static const Color textSecondary = Color(0xFF757575); // Medium gray
-  static const Color gradientStart = Color(0xFF1565C0);
-  static const Color gradientEnd = Color(0xFF42A5F5);
-
-  // Dark theme colors
-  static const Color darkBackgroundColor = Color(0xFF121212); // Dark background
-  static const Color darkSurfaceColor = Color(0xFF1E1E1E); // Dark surface
+  
+  // Dark backgrounds for hero and key sections
+  static const Color darkHeroBackground = Color(0xFF0A1929); // Deep space blue
+  static const Color darkSectionBackground = Color(0xFF132F4C); // Control panel dark
+  
+  // Aviation gradients
+  static const Color heroGradientStart = Color(0xFF0B3D91); // Primary Blue
+  static const Color heroGradientEnd = Color(0xFF1FB6FF); // Accent Blue
+  static const Color darkSectionGradientStart = Color(0xFF0A1929); // Dark Background
+  static const Color darkSectionGradientEnd = Color(0xFF132F4C); // Dark Surface
+  
+  // Legacy dark theme colors (for compatibility)
+  static const Color darkBackgroundColor = Color(0xFF0A1929); // Updated to match hero background
+  static const Color darkSurfaceColor = Color(0xFF132F4C); // Updated to match section background
   static const Color darkTextPrimary = Color(0xFFE0E0E0); // Light gray
   static const Color darkTextSecondary = Color(0xFFB0B0B0); // Medium light gray
-  static const Color darkGradientStart = Color(0xFF1976D2);
-  static const Color darkGradientEnd = Color(0xFF64B5F6);
 
   /// Main light theme for the application
   static ThemeData get lightTheme {
@@ -223,7 +227,7 @@ class SkyOpsTheme {
       colorScheme: ColorScheme.fromSeed(
         seedColor: primaryBlue,
         brightness: Brightness.dark,
-        primary: lightBlue,
+        primary: accentBlue,
         secondary: accentBlue,
         surface: darkSurfaceColor,
         background: darkBackgroundColor,
@@ -343,10 +347,10 @@ class SkyOpsTheme {
       // Elevated button theme for dark mode
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: lightBlue,
+          backgroundColor: accentBlue,
           foregroundColor: Colors.black,
           elevation: 2,
-          shadowColor: lightBlue.withOpacity(0.3),
+          shadowColor: accentBlue.withOpacity(0.3),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
           ),
@@ -362,8 +366,8 @@ class SkyOpsTheme {
       // Outlined button theme for dark mode
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
-          foregroundColor: lightBlue,
-          side: BorderSide(color: lightBlue, width: 1),
+          foregroundColor: accentBlue,
+          side: BorderSide(color: accentBlue, width: 1),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
           ),
@@ -399,7 +403,7 @@ class SkyOpsTheme {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(color: lightBlue, width: 2),
+          borderSide: BorderSide(color: accentBlue, width: 2),
         ),
         filled: true,
         fillColor: darkSurfaceColor,
@@ -414,9 +418,29 @@ class SkyOpsTheme {
       begin: Alignment.topLeft,
       end: Alignment.bottomRight,
       colors: isDark 
-          ? [darkGradientStart, darkGradientEnd]
-          : [gradientStart, gradientEnd],
+          ? [darkSectionGradientStart, darkSectionGradientEnd]
+          : [heroGradientStart, heroGradientEnd],
       stops: const [0.0, 1.0],
+    );
+  }
+
+  /// Aviation hero gradient (diagonal from primary to accent blue)
+  static LinearGradient get aviationHeroGradient {
+    return const LinearGradient(
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+      colors: [heroGradientStart, heroGradientEnd],
+      stops: [0.0, 1.0],
+    );
+  }
+
+  /// Dark section gradient (vertical from dark background to dark surface)
+  static LinearGradient get darkSectionGradient {
+    return const LinearGradient(
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
+      colors: [darkSectionGradientStart, darkSectionGradientEnd],
+      stops: [0.0, 1.0],
     );
   }
 

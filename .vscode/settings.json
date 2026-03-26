@@ -1,2 +1,6 @@
 {
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 700,
+  "editor.formatOnSave": true,
+  "dart.flutterHotReloadOnSave": "all"
 }

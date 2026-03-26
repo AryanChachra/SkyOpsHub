@@ -136,6 +136,57 @@ class ResponsiveBreakpoints {
       return 3;
     }
   }
+  
+  /// Ensure minimum touch target size for mobile (44x44px)
+  /// Returns the larger of the provided size or minimum touch target size
+  static double ensureTouchTargetSize(double size, BuildContext context) {
+    if (isMobile(context)) {
+      return size < 44.0 ? 44.0 : size;
+    }
+    return size;
+  }
+  
+  /// Get safe button padding that ensures minimum touch target size
+  static EdgeInsets getButtonPadding(BuildContext context) {
+    if (isMobile(context)) {
+      // Ensure minimum 44x44px touch target
+      return const EdgeInsets.symmetric(horizontal: 20, vertical: 12);
+    } else if (isTablet(context)) {
+      return const EdgeInsets.symmetric(horizontal: 24, vertical: 14);
+    } else {
+      return const EdgeInsets.symmetric(horizontal: 32, vertical: 16);
+    }
+  }
+  
+  /// Check if device is in landscape orientation
+  static bool isLandscape(BuildContext context) {
+    return MediaQuery.of(context).orientation == Orientation.landscape;
+  }
+  
+  /// Get responsive icon size
+  static double getIconSize(BuildContext context, {double base = 24.0}) {
+    final width = MediaQuery.of(context).size.width;
+    if (width < 360) {
+      return base * 0.8;
+    } else if (isMobile(context)) {
+      return base * 0.9;
+    } else if (isTablet(context)) {
+      return base;
+    } else {
+      return base * 1.1;
+    }
+  }
+  
+  /// Get responsive border radius
+  static double getBorderRadius(BuildContext context, {double base = 8.0}) {
+    if (isMobile(context)) {
+      return base;
+    } else if (isTablet(context)) {
+      return base * 1.25;
+    } else {
+      return base * 1.5;
+    }
+  }
 }
 
 /// Device type enumeration

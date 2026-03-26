@@ -1,102 +1,106 @@
 # ✈️ SkyOpsHub
 
-**SkyOpsHub** is an AI-powered airline operations management platform designed to streamline, optimize, and automate complex airline operational workflows. It helps airlines reduce operational chaos, improve on-time performance, and ensure regulatory compliance through intelligent decision-making and real-time insights.
+**SkyOpsHub** is an AI-driven airline operations platform under development, focused on helping airlines improve scheduling, resource utilization, and operational decision-making.
+
+It aims to address the complexity of airline operations by providing a more structured and intelligent approach to managing aircraft, crew, and operational constraints.
 
 ---
 
 ## 🚀 Project Vision
 
-Airline operations involve highly complex, interdependent systems—flight scheduling, crew assignments, aircraft availability, maintenance planning, and regulatory constraints. Manual coordination or legacy tools often lead to inefficiencies, delays, and increased costs.
+Airline operations involve highly complex, interdependent systems—flight scheduling, crew assignments, aircraft availability, maintenance planning, and regulatory constraints.
 
-**SkyOpsHub aims to become a unified operational command center for airlines**, leveraging AI and automation to:
-- Optimize daily operations
-- Reduce disruptions and delays
-- Ensure safety and compliance
-- Improve operational transparency and decision-making
+Many of these processes are still heavily manual or rely on rigid systems that are difficult to adapt in real time.
+
+**SkyOpsHub is being built to simplify and improve these workflows** by applying AI and optimization techniques to support airline operations teams in planning and decision-making.
 
 ---
 
 ## 🧠 Core Idea
 
-SkyOpsHub acts as a **centralized SaaS platform** that integrates operational data from multiple airline systems and applies intelligent optimization models to assist operations teams in planning, monitoring, and responding to real-world scenarios.
+SkyOpsHub is designed as a **centralized platform** that can combine operational inputs (such as fleet size, crew availability, and route networks) and generate optimized scheduling outputs.
 
-Rather than replacing human decision-makers, SkyOpsHub **augments operational teams** by providing smart recommendations, conflict detection, and real-time visibility.
+The goal is not to replace human decision-making, but to **assist operations teams** by:
+- Highlighting constraints and conflicts  
+- Supporting better resource allocation  
+- Providing structured, data-driven recommendations  
 
 ---
 
-## 🔑 Key Features
+## 🔑 Planned Features
 
-### ✈️ Intelligent Flight Scheduling
-- AI-assisted flight planning and optimization
-- Conflict detection for aircraft, crew, and slots
-- Scenario-based schedule simulations
+> These features represent the direction of the platform and are currently in development.
+
+### ✈️ Scheduling & Planning
+- Generate optimized flight schedules based on operational inputs  
+- Consider constraints such as crew availability and aircraft rotation  
+- Support scenario-based planning  
+
+---
 
 ### 👨‍✈️ Crew & Resource Management
-- Crew availability and duty-time compliance tracking
-- Smart crew assignment recommendations
-- Resource utilization optimization
-
-### 🛠️ Aircraft & Maintenance Oversight
-- Aircraft availability monitoring
-- Maintenance window planning
-- Regulatory compliance checks
-
-### 📊 Real-Time Operational Dashboard
-- Live operational status monitoring
-- Alerts for disruptions and conflicts
-- Performance and efficiency metrics
-
-### ⚠️ Disruption & Recovery Management
-- Delay and cancellation impact analysis
-- Automated recovery suggestions
-- What-if simulations for operational decisions
-
-### 🧾 Regulatory Compliance
-- Built-in checks for aviation rules and constraints
-- Reduced risk of violations and penalties
-- Audit-friendly operational logs
+- Track crew availability and duty constraints  
+- Assist in crew assignment planning  
+- Improve overall resource utilization  
 
 ---
 
-## 🏗️ Platform Architecture (High-Level)
+### 🛠️ Aircraft & Maintenance Planning
+- Incorporate maintenance windows into scheduling  
+- Track aircraft availability  
+- Align planning with operational constraints  
 
-- **Multi-tenant SaaS architecture**
-- Modular and scalable system design
-- Cloud-ready for global airline operations
-- Secure data handling and access control
+---
+
+### 📊 Operational Visibility
+- Provide a structured view of operations and scheduling outputs  
+- Surface potential conflicts or inefficiencies  
+- Support better operational awareness  
+
+---
+
+### ⚠️ Disruption & Recovery (Planned)
+- Explore ways to support disruption handling and schedule adjustments  
+- Assist in evaluating alternative operational scenarios  
+
+---
+
+### 🧾 Compliance Considerations
+- Incorporate aviation regulatory constraints (e.g., duty limits) into planning  
+- Help reduce the risk of violations  
 
 ---
 
 ## 🎯 Target Users
 
-- Airline Operations Control Centers (OCC)
-- Flight Operations Managers
-- Crew Scheduling Teams
-- Maintenance Planning Teams
-- Airline Management & Decision Makers
+- Airline Operations Control Centers (OCC)  
+- Crew Scheduling Teams  
+- Flight Operations Managers  
+- Maintenance Planning Teams  
 
 ---
 
 ## 💡 Why SkyOpsHub?
 
-- Reduces operational inefficiencies and costs
-- Improves punctuality and reliability
-- Enhances decision-making with AI-driven insights
-- Scales from regional to large international airlines
-- Designed with real-world aviation constraints in mind
+- Focuses on real-world airline operational challenges  
+- Designed with both technical and domain considerations in mind  
+- Aims to improve efficiency without replacing human decision-making  
+- Built as a flexible system that can evolve with operational needs  
 
 ---
 
-## 🛣️ Roadmap (Planned)
+## 🛣️ Roadmap
 
-- Advanced AI optimization models
-- Predictive disruption detection
-- Integration with airline operational systems
-- Mobile-first operational dashboards
-- Analytics-driven performance benchmarking
+- Develop core scheduling and optimization engine  
+- Introduce scenario-based planning capabilities  
+- Explore disruption handling approaches  
+- Improve data modeling for airline operations  
+- Build a usable interface for operational teams  
 
 ---
 
 ## 📌 Project Status
 
-SkyOpsHub is under active development and evolving as a next-generation airline operations platform.
+SkyOpsHub is currently under active development as an independent project.
+
+The platform is in its early stages, with a focus on building a solid foundation for scheduling, optimization, and operational modeling.

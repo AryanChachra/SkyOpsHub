@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../pages/demo_request_page.dart';
 import '../../utils/responsive_breakpoints.dart';
 
 /// Enhanced product links section with interactive elements and compelling content
@@ -20,17 +21,17 @@ class _ProductLinksSectionState extends State<ProductLinksSection>
   @override
   void initState() {
     super.initState();
-    
+
     _pulseController = AnimationController(
       duration: const Duration(seconds: 2),
       vsync: this,
     )..repeat(reverse: true);
-    
+
     _slideController = AnimationController(
       duration: const Duration(milliseconds: 800),
       vsync: this,
     );
-    
+
     _pulseAnimation = Tween<double>(
       begin: 1.0,
       end: 1.05,
@@ -38,7 +39,7 @@ class _ProductLinksSectionState extends State<ProductLinksSection>
       parent: _pulseController,
       curve: Curves.easeInOut,
     ));
-    
+
     _slideAnimation = Tween<Offset>(
       begin: const Offset(0, 0.3),
       end: Offset.zero,
@@ -46,7 +47,7 @@ class _ProductLinksSectionState extends State<ProductLinksSection>
       parent: _slideController,
       curve: Curves.easeOutCubic,
     ));
-    
+
     _slideController.forward();
   }
 
@@ -85,9 +86,13 @@ class _ProductLinksSectionState extends State<ProductLinksSection>
           child: Column(
             children: [
               _buildSectionHeader(context),
-              SizedBox(height: ResponsiveBreakpoints.getResponsiveSpacing(context, base: 32)),
+              SizedBox(
+                  height: ResponsiveBreakpoints.getResponsiveSpacing(context,
+                      base: 32)),
               _buildInteractiveCards(context),
-              SizedBox(height: ResponsiveBreakpoints.getResponsiveSpacing(context, base: 24)),
+              SizedBox(
+                  height: ResponsiveBreakpoints.getResponsiveSpacing(context,
+                      base: 24)),
               _buildCallToAction(context),
             ],
           ),
@@ -106,7 +111,8 @@ class _ProductLinksSectionState extends State<ProductLinksSection>
             return Transform.scale(
               scale: _pulseAnimation.value,
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
@@ -117,7 +123,10 @@ class _ProductLinksSectionState extends State<ProductLinksSection>
                   borderRadius: BorderRadius.circular(25),
                   boxShadow: [
                     BoxShadow(
-                      color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
+                      color: Theme.of(context)
+                          .colorScheme
+                          .primary
+                          .withOpacity(0.3),
                       blurRadius: 8,
                       offset: const Offset(0, 4),
                     ),
@@ -147,22 +156,22 @@ class _ProductLinksSectionState extends State<ProductLinksSection>
             );
           },
         ),
-        
+
         const SizedBox(height: 24),
-        
+
         // Main title
         Text(
           'Experience the Future of Airline Operations',
           style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-            fontWeight: FontWeight.w800,
-            color: Theme.of(context).textTheme.headlineLarge?.color,
-            height: 1.2,
-          ),
+                fontWeight: FontWeight.w800,
+                color: Theme.of(context).textTheme.headlineLarge?.color,
+                height: 1.2,
+              ),
           textAlign: TextAlign.center,
         ),
-        
+
         const SizedBox(height: 16),
-        
+
         // Compelling description
         Container(
           constraints: const BoxConstraints(maxWidth: 700),
@@ -171,10 +180,10 @@ class _ProductLinksSectionState extends State<ProductLinksSection>
             'See real-time optimization in action, explore our cutting-edge AI algorithms, and discover '
             'how we can reduce your operational costs by up to 25% in the first year.',
             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-              color: Theme.of(context).textTheme.bodyLarge?.color,
-              height: 1.6,
-              fontSize: 18,
-            ),
+                  color: Theme.of(context).textTheme.bodyLarge?.color,
+                  height: 1.6,
+                  fontSize: 18,
+                ),
             textAlign: TextAlign.center,
           ),
         ),
@@ -193,7 +202,9 @@ class _ProductLinksSectionState extends State<ProductLinksSection>
     return Row(
       children: [
         Expanded(child: _buildPlatformCard(context)),
-        SizedBox(width: ResponsiveBreakpoints.getResponsiveSpacing(context, base: 24)),
+        SizedBox(
+            width:
+                ResponsiveBreakpoints.getResponsiveSpacing(context, base: 24)),
         Expanded(child: _buildGitHubCard(context)),
       ],
     );
@@ -203,7 +214,9 @@ class _ProductLinksSectionState extends State<ProductLinksSection>
     return Column(
       children: [
         _buildPlatformCard(context),
-        SizedBox(height: ResponsiveBreakpoints.getResponsiveSpacing(context, base: 16)),
+        SizedBox(
+            height:
+                ResponsiveBreakpoints.getResponsiveSpacing(context, base: 16)),
         _buildGitHubCard(context),
       ],
     );
@@ -213,7 +226,8 @@ class _ProductLinksSectionState extends State<ProductLinksSection>
     return _InteractiveCard(
       title: 'Live Platform Demo',
       subtitle: 'See SkyOpsHub in Action',
-      description: 'Experience our AI-powered dashboard with real airline data. '
+      description:
+          'Experience our AI-powered dashboard with real airline data. '
           'Watch live optimization algorithms reduce delays, optimize crew schedules, '
           'and predict maintenance needs in real-time.',
       icon: Icons.dashboard,
@@ -238,7 +252,8 @@ class _ProductLinksSectionState extends State<ProductLinksSection>
     return _InteractiveCard(
       title: 'Open Source Code',
       subtitle: 'Explore Our Technology',
-      description: 'Dive deep into our algorithms, review our architecture, and see '
+      description:
+          'Dive deep into our algorithms, review our architecture, and see '
           'how we\'ve built the most advanced airline operations platform. '
           'Join our developer community and contribute to the future of aviation.',
       icon: Icons.code,
@@ -288,22 +303,22 @@ class _ProductLinksSectionState extends State<ProductLinksSection>
           Text(
             'Ready to optimize your operations?',
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-              fontWeight: FontWeight.w700,
-              color: Theme.of(context).textTheme.headlineSmall?.color,
-            ),
+                  fontWeight: FontWeight.w700,
+                  color: Theme.of(context).textTheme.headlineSmall?.color,
+                ),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 8),
           Text(
             'Schedule a personalized demo and see how SkyOpsHub can transform your airline',
             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-              color: Theme.of(context).textTheme.bodyLarge?.color,
-            ),
+                  color: Theme.of(context).textTheme.bodyLarge?.color,
+                ),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 24),
           ElevatedButton.icon(
-            onPressed: () => _launchURL('mailto:contact@skyopshub.in?subject=Demo Request'),
+            onPressed: () => DemoRequestPage.open(context),
             icon: const Icon(Icons.calendar_today),
             label: const Text('Schedule Demo'),
             style: ElevatedButton.styleFrom(
@@ -350,18 +365,18 @@ class _InteractiveCardState extends State<_InteractiveCard>
   late AnimationController _hoverController;
   late Animation<double> _scaleAnimation;
   late Animation<double> _elevationAnimation;
-  
+
   bool _isHovered = false;
 
   @override
   void initState() {
     super.initState();
-    
+
     _hoverController = AnimationController(
       duration: const Duration(milliseconds: 200),
       vsync: this,
     );
-    
+
     _scaleAnimation = Tween<double>(
       begin: 1.0,
       end: 1.03,
@@ -369,7 +384,7 @@ class _InteractiveCardState extends State<_InteractiveCard>
       parent: _hoverController,
       curve: Curves.easeOut,
     ));
-    
+
     _elevationAnimation = Tween<double>(
       begin: 4.0,
       end: 12.0,
@@ -389,7 +404,7 @@ class _InteractiveCardState extends State<_InteractiveCard>
     setState(() {
       _isHovered = isHovered;
     });
-    
+
     if (isHovered) {
       _hoverController.forward();
     } else {
@@ -486,7 +501,7 @@ class _InteractiveCardState extends State<_InteractiveCard>
                       ),
                     ),
                   ),
-                  
+
                   // Content
                   Padding(
                     padding: const EdgeInsets.all(24),
@@ -496,13 +511,17 @@ class _InteractiveCardState extends State<_InteractiveCard>
                       children: [
                         Text(
                           widget.description,
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: Theme.of(context).textTheme.bodyMedium?.color,
-                            height: 1.5,
-                          ),
+                          style:
+                              Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium
+                                        ?.color,
+                                    height: 1.5,
+                                  ),
                         ),
                         const SizedBox(height: 16),
-                        
+
                         // Features list
                         ...widget.features.map((feature) {
                           return Padding(
@@ -518,18 +537,24 @@ class _InteractiveCardState extends State<_InteractiveCard>
                                 Expanded(
                                   child: Text(
                                     feature,
-                                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                      color: Theme.of(context).textTheme.bodySmall?.color,
-                                    ),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall
+                                        ?.copyWith(
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodySmall
+                                              ?.color,
+                                        ),
                                   ),
                                 ),
                               ],
                             ),
                           );
                         }),
-                        
+
                         const SizedBox(height: 24),
-                        
+
                         // Action button
                         SizedBox(
                           width: double.infinity,

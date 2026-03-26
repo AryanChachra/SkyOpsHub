@@ -1,71 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../pages/demo_request_page.dart';
 import '../../utils/responsive_breakpoints.dart';
 
-/// Enhanced contact section with interactive elements and compelling call-to-action
-class ContactSection extends StatefulWidget {
+/// Homepage contact section that launches the dedicated demo request page
+class ContactSection extends StatelessWidget {
   const ContactSection({super.key});
 
-  @override
-  State<ContactSection> createState() => _ContactSectionState();
-}
-
-class _ContactSectionState extends State<ContactSection>
-    with TickerProviderStateMixin {
-  late AnimationController _pulseController;
-  late AnimationController _slideController;
-  late Animation<double> _pulseAnimation;
-  late Animation<Offset> _slideAnimation;
-
-  @override
-  void initState() {
-    super.initState();
-    
-    _pulseController = AnimationController(
-      duration: const Duration(seconds: 3),
-      vsync: this,
-    )..repeat(reverse: true);
-    
-    _slideController = AnimationController(
-      duration: const Duration(milliseconds: 800),
-      vsync: this,
-    );
-    
-    _pulseAnimation = Tween<double>(
-      begin: 1.0,
-      end: 1.1,
-    ).animate(CurvedAnimation(
-      parent: _pulseController,
-      curve: Curves.easeInOut,
-    ));
-    
-    _slideAnimation = Tween<Offset>(
-      begin: const Offset(0, 0.3),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _slideController,
-      curve: Curves.easeOutCubic,
-    ));
-    
-    _slideController.forward();
-  }
-
-  @override
-  void dispose() {
-    _pulseController.dispose();
-    _slideController.dispose();
-    super.dispose();
-  }
-
   Future<void> _launchURL(String url) async {
-    final Uri uri = Uri.parse(url);
+    final uri = Uri.parse(url);
     if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
       throw Exception('Could not launch $url');
     }
   }
 
+  Future<void> _openEmailComposer() async {
+    const gmailComposeUrl =
+        'https://mail.google.com/mail/?view=cm&fs=1&to=admin@skyopshub.in';
+
+    try {
+      await _launchURL(gmailComposeUrl);
+    } catch (_) {
+      await _launchURL('mailto:admin@skyopshub.in');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final isMobile = ResponsiveBreakpoints.isMobile(context);
+
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -80,17 +43,38 @@ class _ContactSectionState extends State<ContactSection>
       ),
       padding: ResponsiveBreakpoints.getSafePadding(context),
       child: ResponsiveContainer(
-        child: SlideTransition(
-          position: _slideAnimation,
-          child: Column(
-            children: [
-              _buildSectionHeader(context),
-              SizedBox(height: ResponsiveBreakpoints.getResponsiveSpacing(context, base: 32)),
-              _buildContactOptions(context),
-              // const SizedBox(height: 40),
-              // _buildUrgencyMessage(context),
-            ],
-          ),
+        child: Column(
+          children: [
+            _buildSectionHeader(context),
+            SizedBox(
+              height:
+                  ResponsiveBreakpoints.getResponsiveSpacing(context, base: 32),
+            ),
+            isMobile
+                ? Column(
+                    children: [
+                      _buildDemoRequestCard(context, isMobile),
+                      const SizedBox(height: 20),
+                      _buildConnectCard(context),
+                    ],
+                  )
+                : IntrinsicHeight(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Expanded(
+                          flex: 3,
+                          child: _buildDemoRequestCard(context, isMobile),
+                        ),
+                        const SizedBox(width: 24),
+                        Expanded(
+                          flex: 2,
+                          child: _buildConnectCard(context),
+                        ),
+                      ],
+                    ),
+                  ),
+          ],
         ),
       ),
     );
@@ -99,238 +83,76 @@ class _ContactSectionState extends State<ContactSection>
   Widget _buildSectionHeader(BuildContext context) {
     return Column(
       children: [
-        // Animated badge
-        AnimatedBuilder(
-          animation: _pulseAnimation,
-          builder: (context, child) {
-            return Transform.scale(
-              scale: _pulseAnimation.value,
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Colors.red.shade600,
-                      Colors.orange.shade600,
-                    ],
-                  ),
-                  borderRadius: BorderRadius.circular(25),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.red.withOpacity(0.3),
-                      blurRadius: 8,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      Icons.access_time,
-                      color: Colors.white,
-                      size: 16,
-                    ),
-                    const SizedBox(width: 8),
-                    Text(
-                      'LIMITED TIME OFFER',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 12,
-                        letterSpacing: 1.2,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          },
-        ),
-        
-        const SizedBox(height: 24),
-        
         Text(
-          'Don\'t Let Your Competitors Get Ahead',
+          'Request a personalized demo and we’ll get back to you within 24–48 hours.',
           style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-            fontWeight: FontWeight.w800,
-            color: Theme.of(context).textTheme.headlineLarge?.color,
-            height: 1.2,
-          ),
+                fontWeight: FontWeight.w800,
+                height: 1.2,
+              ),
           textAlign: TextAlign.center,
         ),
-        
-        const SizedBox(height: 16),
-        
-        Container(
-          constraints: const BoxConstraints(maxWidth: 700),
-          child: RichText(
-            textAlign: TextAlign.center,
-            text: TextSpan(
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                height: 1.6,
-                fontSize: 18,
-              ),
-              children: [
-                TextSpan(
-                  text: 'Every day you wait, your competitors gain an advantage. ',
-                  style: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color),
-                ),
-                TextSpan(
-                  text: 'Airlines using SkyOpsHub are already saving 25% on operational costs ',
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.primary,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                TextSpan(
-                  text: 'and improving efficiency by 40%. The question isn\'t whether you can afford to implement SkyOpsHub—',
-                  style: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color),
-                ),
-                TextSpan(
-                  text: 'it\'s whether you can afford not to.',
-                  style: TextStyle(
-                    color: Colors.red.shade600,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
+        // const SizedBox(height: 16),
+        // ConstrainedBox(
+        //   constraints: const BoxConstraints(maxWidth: 700),
+        //   child: Text(
+        //     'Request a personalized demo and we’ll get back to you within 24–48 hours.',
+        //     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+        //           height: 1.6,
+        //           fontSize: 18,
+        //         ),
+        //     textAlign: TextAlign.center,
+        //   ),
+        // ),
       ],
     );
   }
 
-  Widget _buildContactOptions(BuildContext context) {
-    return ResponsiveWidget(
-      mobile: _buildMobileContactOptions(context),
-      desktop: _buildDesktopContactOptions(context),
-    );
-  }
-
-  Widget _buildDesktopContactOptions(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(child: _buildPrimaryContact(context)),
-        SizedBox(width: ResponsiveBreakpoints.getResponsiveSpacing(context, base: 24)),
-        Expanded(child: _buildSocialContact(context)),
-      ],
-    );
-  }
-
-  Widget _buildMobileContactOptions(BuildContext context) {
-    return Column(
-      children: [
-        _buildPrimaryContact(context),
-        SizedBox(height: ResponsiveBreakpoints.getResponsiveSpacing(context, base: 16)),
-        _buildSocialContact(context),
-      ],
-    );
-  }
-
-  Widget _buildPrimaryContact(BuildContext context) {
-    final isMobile = ResponsiveBreakpoints.isMobile(context);
-    final padding = isMobile ? 20.0 : 32.0;
-    
+  Widget _buildFormHeader(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(padding),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            Theme.of(context).colorScheme.primary,
-            Theme.of(context).colorScheme.primary.withOpacity(0.8),
+            Theme.of(context).colorScheme.primary.withOpacity(0.10),
+            Theme.of(context).colorScheme.primary.withOpacity(0.04),
           ],
         ),
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
-            blurRadius: 20,
-            offset: const Offset(0, 8),
-          ),
-        ],
+        borderRadius: BorderRadius.circular(18),
       ),
-      child: Column(
+      child: Row(
         children: [
-          Icon(
-            Icons.email,
-            size: isMobile ? 36 : 48,
-            color: Colors.white,
-          ),
-          SizedBox(height: isMobile ? 12 : 16),
-          Text(
-            'Get Immediate Response',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: isMobile ? 18 : 20,
-              fontWeight: FontWeight.w700,
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.primary.withOpacity(0.12),
+              borderRadius: BorderRadius.circular(14),
             ),
-            textAlign: TextAlign.center,
-          ),
-          SizedBox(height: isMobile ? 6 : 8),
-          Text(
-            'Our aviation experts respond within 2 hours',
-            style: TextStyle(
-              color: Colors.white.withOpacity(0.9),
-              fontSize: isMobile ? 12 : 14,
-            ),
-            textAlign: TextAlign.center,
-          ),
-          SizedBox(height: isMobile ? 16 : 24),
-          GestureDetector(
-            onTap: () => _launchURL('mailto:contact@skyopshub.in?subject=Urgent: SkyOpsHub Demo Request'),
-            child: Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: isMobile ? 16 : 24, 
-                vertical: isMobile ? 8 : 12
-              ),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(25),
-              ),
-              child: Text(
-                'contact@skyopshub.in',
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
-                  fontWeight: FontWeight.w600,
-                  fontSize: isMobile ? 14 : 16,
-                ),
-                overflow: TextOverflow.ellipsis,
-              ),
+            child: Icon(
+              Icons.description_outlined,
+              color: Theme.of(context).colorScheme.primary,
+              size: 24,
             ),
           ),
-          SizedBox(height: isMobile ? 12 : 16),
-          ElevatedButton(
-            onPressed: () => _launchURL('mailto:contact@skyopshub.in?subject=Urgent: SkyOpsHub Demo Request&body=I need to see SkyOpsHub in action immediately. Please schedule a demo ASAP.'),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.white,
-              foregroundColor: Theme.of(context).colorScheme.primary,
-              padding: EdgeInsets.symmetric(
-                horizontal: isMobile ? 20 : 32, 
-                vertical: isMobile ? 12 : 16
-              ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(25),
-              ),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
+          const SizedBox(width: 14),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(Icons.schedule, size: isMobile ? 16 : 20),
-                SizedBox(width: isMobile ? 6 : 8),
-                Flexible(
-                  child: Text(
-                    'Schedule Demo Now',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: isMobile ? 14 : 16,
-                    ),
-                    overflow: TextOverflow.ellipsis,
-                  ),
+                Text(
+                  'Submit Your Demo Request',
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
                 ),
+                // const SizedBox(height: 4),
+                // Text(
+                //   'Request a personalized demo and we’ll get back to you within 24–48 hours.',
+                //   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                //         height: 1.5,
+                //       ),
+                // ),
               ],
             ),
           ),
@@ -339,71 +161,161 @@ class _ContactSectionState extends State<ContactSection>
     );
   }
 
-  Widget _buildSocialContact(BuildContext context) {
+  Widget _buildDemoRequestCard(BuildContext context, bool isMobile) {
     return Container(
-      padding: const EdgeInsets.all(32),
+      width: double.infinity,
+      height: double.infinity,
+      padding: EdgeInsets.all(isMobile ? 20 : 32),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(24),
         border: Border.all(
-          color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
-          width: 2,
+          color: Theme.of(context).colorScheme.primary.withOpacity(0.18),
+          width: 1.5,
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 20,
-            offset: const Offset(0, 8),
+            color: Theme.of(context).colorScheme.primary.withOpacity(0.12),
+            blurRadius: 30,
+            offset: const Offset(0, 14),
           ),
         ],
       ),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            Icons.connect_without_contact,
-            size: 48,
-            color: Theme.of(context).colorScheme.primary,
+          _buildFormHeader(context),
+          // const SizedBox(height: 20),
+          // Text(
+          //   'The demo request form now opens on a dedicated page for a smoother experience while filling it out.',
+          //   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+          //         height: 1.6,
+          //       ),
+          //   textAlign: TextAlign.center,
+          // ),
+          const SizedBox(height: 24),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: () => DemoRequestPage.open(context),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Theme.of(context).colorScheme.primary,
+                foregroundColor: Colors.white,
+                padding: EdgeInsets.symmetric(
+                  vertical: isMobile ? 16 : 18,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+              ),
+              child: Text(
+                'Open Demo Request Form',
+                style: TextStyle(
+                  fontSize: isMobile ? 15 : 16,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
           ),
           const SizedBox(height: 16),
           Text(
-            'Connect & Follow',
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-              fontWeight: FontWeight.w700,
-              color: Theme.of(context).textTheme.titleLarge?.color,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'Stay updated with latest features and industry insights',
+            'Prefer to reach out directly?',
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Theme.of(context).textTheme.bodyMedium?.color,
-            ),
+                  fontWeight: FontWeight.w600,
+                ),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: 10),
+          InkWell(
+            onTap: _openEmailComposer,
+            borderRadius: BorderRadius.circular(8),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              child: Text(
+                'Email at admin@skyopshub.in',
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      height: 1.5,
+                      decoration: TextDecoration.underline,
+                    ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildConnectCard(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      height: double.infinity,
+      padding: const EdgeInsets.all(28),
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Color(0xFF1D3A5C),
+            Color(0xFF173250),
+          ],
+        ),
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(
+          color: const Color(0xFF2A78C8).withOpacity(0.35),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFF0B3D91).withOpacity(0.18),
+            blurRadius: 24,
+            offset: const Offset(0, 12),
+          ),
+        ],
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.connect_without_contact,
+            size: 34,
+            color: Colors.lightBlue.shade300,
+          ),
+          const SizedBox(height: 14),
+          Text(
+            'Connect & Follow',
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w700,
+                ),
+            textAlign: TextAlign.center,
+          ),
+          // const SizedBox(height: 8),
+          // Text(
+          //   'Stay updated with latest features and industry insights',
+          //   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+          //         color: Colors.white.withOpacity(0.82),
+          //         height: 1.5,
+          //       ),
+          //   textAlign: TextAlign.center,
+          // ),
+          const SizedBox(height: 28),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               _buildSocialButton(
                 context,
-                Icons.business,
-                'LinkedIn',
-                Colors.blue.shade700,
-                () => _launchURL('https://linkedin.com/company/skyopshub'),
+                icon: Icons.business,
+                label: 'LinkedIn',
+                onPressed: () => _launchURL(
+                    'https://www.linkedin.com/in/aryan-chachra-519927232'),
               ),
+              const SizedBox(width: 20),
               _buildSocialButton(
                 context,
-                Icons.code,
-                'GitHub',
-                Colors.grey.shade800,
-                () => _launchURL('https://github.com/skyopshub'),
-              ),
-              _buildSocialButton(
-                context,
-                Icons.alternate_email,
-                'Twitter',
-                Colors.blue.shade400,
-                () => _launchURL('https://twitter.com/skyopshub'),
+                icon: Icons.code,
+                label: 'GitHub',
+                onPressed: () =>
+                    _launchURL('https://github.com/AryanChachra/SkyOpsHub'),
               ),
             ],
           ),
@@ -413,30 +325,29 @@ class _ContactSectionState extends State<ContactSection>
   }
 
   Widget _buildSocialButton(
-    BuildContext context,
-    IconData icon,
-    String label,
-    Color color,
-    VoidCallback onPressed,
-  ) {
+    BuildContext context, {
+    required IconData icon,
+    required String label,
+    required VoidCallback onPressed,
+  }) {
     return Column(
       children: [
-        GestureDetector(
+        InkWell(
           onTap: onPressed,
+          borderRadius: BorderRadius.circular(12),
           child: Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: color.withOpacity(0.1),
+              color: const Color(0xFF21476F),
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
-                color: color.withOpacity(0.3),
-                width: 1,
+                color: const Color(0xFF2A78C8).withOpacity(0.45),
               ),
             ),
             child: Icon(
               icon,
-              color: color,
-              size: 24,
+              color: Colors.lightBlue.shade300,
+              size: 20,
             ),
           ),
         ),
@@ -444,63 +355,10 @@ class _ContactSectionState extends State<ContactSection>
         Text(
           label,
           style: Theme.of(context).textTheme.bodySmall?.copyWith(
-            color: Theme.of(context).textTheme.bodySmall?.color,
-            fontWeight: FontWeight.w500,
-          ),
+                color: Colors.white.withOpacity(0.72),
+              ),
         ),
       ],
-    );
-  }
-
-  Widget _buildUrgencyMessage(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            Colors.red.shade50,
-            Colors.orange.shade50,
-          ],
-        ),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: Colors.red.shade200,
-          width: 1,
-        ),
-      ),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.warning_amber,
-                color: Colors.red.shade600,
-                size: 24,
-              ),
-              const SizedBox(width: 8),
-              Text(
-                'Act Fast - Limited Spots Available',
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: Colors.red.shade700,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          Text(
-            'We\'re currently onboarding only 5 new airlines per quarter to ensure '
-            'premium implementation support. Don\'t miss your chance to join the '
-            'aviation revolution.',
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Colors.red.shade700,
-              height: 1.5,
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
     );
   }
 }
