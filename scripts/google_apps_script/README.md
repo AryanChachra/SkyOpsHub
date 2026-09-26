@@ -15,6 +15,6 @@ It also emails:
    - Execute as: `Me`
    - Who has access: `Anyone`
 5. Copy the deployed Web App URL.
-6. Paste that URL into `RedesignConfig.demoRequestWebhookUrl`.
+6. Paste that URL into the `WEBHOOK` constant at the top of `assets/js/form.js`.
 
-After that, the website form will submit directly to the script.
+After that, the early-access form (on the home page and at /form/) submits directly to the script. The site sends `name`, `workEmail`, `companyName` and `message`; the selected team is prefixed to `message`, so the script needs no changes.
