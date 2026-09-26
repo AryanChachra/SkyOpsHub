@@ -1,0 +1,815 @@
+<!doctype html>
+<html lang="en-IN" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SkyOpsHub · Airline schedules that show their working</title>
+  <meta name="description" content="SkyOpsHub turns an airline's fleet, crew and route network into flight schedules. An AI planner chooses aircraft and crew; a deterministic rule engine checks every duty against DGCA limits and explains every failure. In active development, built for Indian carriers.">
+  <meta name="theme-color" content="#0A1929">
+  <link rel="canonical" href="https://skyopshub.in/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SkyOpsHub">
+  <meta property="og:title" content="SkyOpsHub · Airline schedules that show their working">
+  <meta property="og:description" content="An AI planner proposes. A DGCA rule engine decides. Crew and fleet scheduling for Indian carriers, in active development.">
+  <meta property="og:url" content="https://skyopshub.in/">
+  <meta property="og:image" content="https://skyopshub.in/assets/img/og-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="SkyOpsHub · Airline schedules that show their working">
+  <meta name="twitter:description" content="An AI planner proposes. A DGCA rule engine decides. Crew and fleet scheduling for Indian carriers.">
+  <meta name="twitter:image" content="https://skyopshub.in/assets/img/og-card.png">
+
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+
+  <link rel="preload" href="assets/fonts/archivo-var.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/ibm-plex-mono-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/css/main.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "SkyOpsHub",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "description": "Airline crew and fleet scheduling with an AI planner and a deterministic DGCA rule engine. In active development.",
+    "url": "https://skyopshub.in/",
+    "creator": { "@type": "Person", "name": "Aryan Chachra" }
+  }
+  </script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <!-- ============ NAV ============ -->
+  <header class="nav" data-nav>
+    <div class="nav__inner wrap">
+      <a class="brand" href="#top" aria-label="SkyOpsHub home">
+        <img class="brand__mark" src="assets/img/mark.png" width="139" height="112" alt="">
+        <span class="brand__word"><span class="brand__sky">SkyOps</span>Hub</span>
+      </a>
+
+      <nav class="nav__links" aria-label="Primary">
+        <a href="#how">How it works</a>
+        <a href="#guardrails">Guardrails</a>
+        <a href="#rulebook">Rulebook</a>
+        <a href="#log">Build log</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+
+      <div class="nav__end">
+        <span class="status-pill" title="SkyOpsHub is in active development"><i></i>In development</span>
+        <a class="btn btn--primary btn--sm" href="#access">Early access</a>
+        <button class="nav__burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="menu" data-burger>
+          <span></span><span></span>
+        </button>
+      </div>
+    </div>
+    <div class="flightline" aria-hidden="true">
+      <span class="flightline__code">DEL</span>
+      <span class="flightline__track"><span class="flightline__fill" data-flight-fill></span><svg class="flightline__plane" data-flight-plane viewBox="0 0 24 24"><path d="M21.6 11.2 14 9.3 10.4 2.6 8.7 3l1.8 6.2-5.2-1.3-1.6-2.3-1.4.3 1 3.6-1 3.6 1.4.3 1.6-2.3 5.2-1.3L8.7 20l1.7.4 3.6-6.7 7.6-1.9c.5-.1.5-.5 0-.6z"/></svg></span>
+      <span class="flightline__code">BOM</span>
+    </div>
+  </header>
+
+  <div class="menu" id="menu" hidden data-menu>
+    <nav aria-label="Mobile">
+      <a href="#how">How it works</a>
+      <a href="#guardrails">Guardrails</a>
+      <a href="#rulebook">Rulebook</a>
+      <a href="#data">Master data</a>
+      <a href="#jobs">Durable jobs</a>
+      <a href="#log">Build log</a>
+      <a href="#faq">FAQ</a>
+      <a href="#founder">Founder</a>
+    </nav>
+    <a class="btn btn--primary" href="#access">Request early access</a>
+    <p class="mono menu__foot">admin@skyopshub.in</p>
+  </div>
+
+  <main id="main">
+
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="top">
+      <div class="hero__grid wrap">
+        <div class="hero__copy">
+          <p class="eyebrow reveal"><span class="eyebrow__dot"></span>Airline scheduling for Indian carriers</p>
+          <h1 class="display reveal" data-split>Airline schedules that show their working.</h1>
+          <p class="lead reveal">SkyOpsHub turns your fleet, crew and route network into a flight schedule. You choose the routes. An AI planner chooses the aircraft and crew to fly them. A deterministic rule engine then checks every duty and every aircraft against DGCA's flight-duty limits, and says exactly why anything fails.</p>
+          <div class="hero__cta reveal">
+            <a class="btn btn--primary" href="#access">Request early access <svg class="arr" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11m-4-4 4 4-4 4"/></svg></a>
+            <a class="btn btn--ghost" href="#how">Watch a schedule get built</a>
+          </div>
+          <dl class="hero__facts reveal">
+            <div><dt>Rule pack</dt><dd>DGCA flight-duty limits</dd></div>
+            <div><dt>Status</dt><dd>In active development</dd></div>
+            <div><dt>Onboarding</dt><dd>Per airline, not self-serve</dd></div>
+          </dl>
+        </div>
+
+        <!-- Ops console -->
+        <div class="console reveal" data-console aria-label="Illustrative schedule-generation run">
+          <div class="console__bar">
+            <span class="console__id mono">JOB <b data-job-id>7F3A</b></span>
+            <span class="console__meta mono">01–07 OCT · 14 ROUTES · A320 FAMILY</span>
+            <span class="chip chip--live mono" data-job-state>RUNNING</span>
+          </div>
+          <div class="console__body">
+            <div class="console__map">
+              <svg class="netmap" data-netmap role="img" aria-label="Route network across Indian airports, with aircraft moving between them"></svg>
+              <div class="netmap__tip mono" data-net-tip hidden></div>
+              <span class="console__tag mono">Illustrative run · hover an airport</span>
+            </div>
+            <div class="console__rail">
+              <dl class="stats mono" data-stats>
+                <div><dt>Routes</dt><dd data-stat="routes">14</dd></div>
+                <div><dt>Aircraft</dt><dd data-stat="aircraft">—</dd></div>
+                <div><dt>Crew</dt><dd data-stat="crew">—</dd></div>
+                <div><dt>Windows</dt><dd data-stat="windows">—</dd></div>
+                <div><dt>Flights</dt><dd data-stat="flights">—</dd></div>
+                <div><dt>Warnings</dt><dd data-stat="warnings">0</dd></div>
+              </dl>
+              <ol class="phases mono" data-phases>
+                <li><span>Scope</span></li><li><span>Readiness</span></li><li><span>Chains</span></li><li><span>Solve</span></li><li><span>Validate</span></li><li><span>Persist</span></li>
+              </ol>
+            </div>
+          </div>
+          <div class="console__log mono" data-log aria-live="off"></div>
+        </div>
+      </div>
+
+      <div class="ticker" aria-label="What the validator checks on every run">
+        <span class="ticker__label mono">Checked every run</span>
+        <div class="ticker__viewport">
+          <ul class="ticker__track mono" data-ticker>
+            <li>12 h minimum rest</li>
+            <li>48 h weekly rest</li>
+            <li>Max 2 consecutive night duties</li>
+            <li>Rolling 7 · 28 · 90 · 365-day caps</li>
+            <li>FDP &amp; landing limits</li>
+            <li>Type ratings</li>
+            <li>Licence &amp; medical valid on the duty date</li>
+            <li>Maintenance due dates</li>
+            <li>Route approvals, e.g. ETOPS · RNP AR</li>
+            <li>Tail continuity</li>
+            <li>Crew continuity</li>
+            <li>Tenant isolation</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 01 PROBLEM ============ -->
+    <section class="section problem" id="problem">
+      <div class="wrap">
+        <header class="section__head section__head--split">
+          <p class="eyebrow reveal"><span class="idx">01</span>Why this exists</p>
+          <h2 class="h2 reveal">Duty rules got stricter. Most rosters are still built in spreadsheets.</h2>
+          <p class="lead reveal">In January 2024 DGCA revised its flight-duty rules: weekly rest went from 36 to 48 hours, the night window widened to 00:00–06:00, and night duties were capped at two landings instead of six. Every roster now has to satisfy those limits while also agreeing with maintenance windows and route requirements that usually live in different files, owned by different teams.</p>
+        </header>
+
+        <div class="pains">
+          <article class="pain reveal">
+            <svg class="pain__glyph" viewBox="0 0 64 64" aria-hidden="true"><rect x="6" y="10" width="22" height="18" rx="1"/><rect x="36" y="10" width="22" height="18" rx="1"/><rect x="21" y="38" width="22" height="18" rx="1"/><path class="dash" d="M17 28v6h15v4M47 28v6H32"/></svg>
+            <p class="pain__n mono">A</p>
+            <h3>Inputs live apart</h3>
+            <p>Fleet, crew and routes sit in separate spreadsheets. Each planning cycle starts with reconciliation instead of planning.</p>
+          </article>
+          <article class="pain reveal">
+            <svg class="pain__glyph" viewBox="0 0 64 64" aria-hidden="true"><path d="M6 50h52"/><path d="M12 50V30M24 50V18M36 50V26M48 50V12"/><path class="dash" d="M6 22h52"/></svg>
+            <p class="pain__n mono">B</p>
+            <h3>Feasibility is assumed</h3>
+            <p>Headcount looks fine on paper until you ask who's actually free at 07:00, which airframe can operate a high-altitude sector like Leh, and who has to finish the day back at base.</p>
+          </article>
+          <article class="pain reveal">
+            <svg class="pain__glyph" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="22"/><path d="M32 18v16"/><circle class="fill" cx="32" cy="43" r="1.8"/></svg>
+            <p class="pain__n mono">C</p>
+            <h3>Failures arrive without reasons</h3>
+            <p>A plan fails, or comes back empty, and nobody can say which rule, which tail or which crew member caused it.</p>
+          </article>
+        </div>
+
+        <blockquote class="pull reveal" data-scrub>
+          <p>The hard part isn't producing a schedule. It's <em>proving it's legal</em> before anyone acts on it.</p>
+        </blockquote>
+      </div>
+    </section>
+
+    <!-- ============ 02 HOW IT WORKS ============ -->
+    <section class="section section--rule how" id="how">
+      <div class="wrap">
+        <header class="section__head section__head--split">
+          <p class="eyebrow reveal"><span class="idx">02</span>From roster to schedule</p>
+          <h2 class="h2 reveal">Six steps, and you can see every one of them.</h2>
+          <p class="lead reveal">No magic button. Each stage shows what it used, what it decided and what it's worried about, so a planner can check the work before anyone flies it.</p>
+        </header>
+
+        <div class="how__grid" data-stepper>
+          <div class="steps" role="tablist" aria-label="How SkyOpsHub builds a schedule" aria-orientation="vertical">
+            <button class="step" role="tab" id="st-1" aria-controls="sp-1" aria-selected="true">
+              <span class="step__n mono">01</span>
+              <span class="step__body"><span class="step__title">Load your operation</span><span class="step__text">Aircraft, crew and routes arrive by form or Excel import. Exact aircraft types map to the catalog, and ambiguous ones stop for a decision.</span></span>
+              <span class="step__bar" aria-hidden="true"><i></i></span>
+            </button>
+            <button class="step" role="tab" id="st-2" aria-controls="sp-2" aria-selected="false" tabindex="-1">
+              <span class="step__n mono">02</span>
+              <span class="step__body"><span class="step__title">Pick the routes and the window</span><span class="step__text">You decide which routes to fly and for which dates. SkyOpsHub never widens that scope by itself.</span></span>
+              <span class="step__bar" aria-hidden="true"><i></i></span>
+            </button>
+            <button class="step" role="tab" id="st-3" aria-controls="sp-3" aria-selected="false" tabindex="-1">
+              <span class="step__n mono">03</span>
+              <span class="step__body"><span class="step__title">Scope the aircraft and crew</span><span class="step__text">Auto: the planning agent picks the specific tails and people. Guided: you filter and it assists. Manual: you choose exactly.</span></span>
+              <span class="step__bar" aria-hidden="true"><i></i></span>
+            </button>
+            <button class="step" role="tab" id="st-4" aria-controls="sp-4" aria-selected="false" tabindex="-1">
+              <span class="step__n mono">04</span>
+              <span class="step__body"><span class="step__title">Check readiness</span><span class="step__text">Hard blockers, warnings, qualification risk and route–aircraft compatibility, shown before anything runs.</span></span>
+              <span class="step__bar" aria-hidden="true"><i></i></span>
+            </button>
+            <button class="step" role="tab" id="st-5" aria-controls="sp-5" aria-selected="false" tabindex="-1">
+              <span class="step__n mono">05</span>
+              <span class="step__body"><span class="step__title">Generate as a durable job</span><span class="step__text">Generation runs in the background with a live phase, an activity feed, and cancel and retry. Close the tab if you like.</span></span>
+              <span class="step__bar" aria-hidden="true"><i></i></span>
+            </button>
+            <button class="step" role="tab" id="st-6" aria-controls="sp-6" aria-selected="false" tabindex="-1">
+              <span class="step__n mono">06</span>
+              <span class="step__body"><span class="step__title">Validate, then save</span><span class="step__text">Rotations and pairings are checked against duty, rest, maintenance and continuity rules. An empty result is never saved as a success.</span></span>
+              <span class="step__bar" aria-hidden="true"><i></i></span>
+            </button>
+          </div>
+
+          <div class="stage">
+            <div class="stage__chrome mono" aria-hidden="true"><span></span><span></span><span></span><em data-stage-title>crew · import review</em></div>
+
+            <!-- 1 -->
+            <div class="panel is-active" role="tabpanel" id="sp-1" aria-labelledby="st-1" data-title="crew · import review">
+              <div class="ui-head mono"><span>crew_roster_oct.xlsx</span><span>212 rows · <b>2 need review</b></span></div>
+              <div class="ui-rowline mono"><span>ROW 14</span><span>P-1103</span><span>V. Menon</span><span>Captain</span><span>BOM</span></div>
+              <div class="review">
+                <p class="review__field mono">aircraft_type_rating</p>
+                <p class="review__raw">“B737”</p>
+                <p class="review__why">Matches two catalog entries. SkyOpsHub won't guess between them: pick one, correct the value or reject the row. Nothing is saved until you do.</p>
+                <ul class="cands">
+                  <li class="is-pick"><span>Boeing 737 MAX 8</span><small class="mono">737 MAX family</small></li>
+                  <li><span>Boeing 737-800</span><small class="mono">737 Next Generation</small></li>
+                </ul>
+                <div class="ui-actions"><span class="ui-btn ui-btn--primary">Use Boeing 737 MAX 8</span><span class="ui-btn">Correct</span><span class="ui-btn">Reject row</span></div>
+              </div>
+              <p class="panel__note mono">Raw value kept · catalog name stored · reviewer, time and reason recorded</p>
+            </div>
+
+            <!-- 2 -->
+            <div class="panel" role="tabpanel" id="sp-2" aria-labelledby="st-2" data-title="generate · route scope" hidden>
+              <div class="ui-head mono"><span>Planning window</span><span>7 days</span></div>
+              <div class="window mono"><span><small>FROM</small>Thu 01 Oct 2026</span><i></i><span><small>TO</small>Wed 07 Oct 2026</span></div>
+              <div class="ui-head mono"><span>Routes in this run</span><span><b>14</b> of 22 selected</span></div>
+              <ul class="routes mono">
+                <li class="on">DEL–BOM</li><li class="on">DEL–BLR</li><li class="on">BOM–BLR</li><li class="on">DEL–HYD</li>
+                <li class="on">BOM–GOI</li><li class="on">BLR–COK</li><li class="on">DEL–CCU</li><li class="on">BOM–HYD</li>
+                <li class="on">DEL–IXL</li><li class="on">CCU–GAU</li><li class="on">BOM–AMD</li><li class="on">HYD–MAA</li>
+                <li class="on">DEL–PNQ</li><li class="on">MAA–CCU</li><li>DEL–SXR</li><li>BLR–TRV</li><li>DEL–JAI</li><li>CCU–BBI</li>
+              </ul>
+              <p class="panel__note mono">Auto mode sizes aircraft and crew for these routes. It never adds routes of its own.</p>
+            </div>
+
+            <!-- 3 -->
+            <div class="panel" role="tabpanel" id="sp-3" aria-labelledby="st-3" data-title="generate · resource scope" hidden>
+              <div class="seg mono" aria-hidden="true"><span class="on">Auto</span><span>Guided</span><span>Manual</span></div>
+              <div class="agent">
+                <div class="agent__head"><span class="agent__badge mono">Planning agent</span><span class="mono agent__out">9 aircraft · 31 crew</span></div>
+                <ul class="agent__why">
+                  <li><b class="mono">07:00–09:10</b>Peak of 7 aircraft airborne at once across the morning wave</li>
+                  <li><b class="mono">Approvals</b>Only aircraft holding the approvals a route lists are offered for it</li>
+                  <li><b class="mono">Reserve</b>2 captains held at DEL for the late-evening departures</li>
+                </ul>
+              </div>
+              <div class="evidence mono">
+                <span>Demand analysis</span>
+                <span>aircraft peak 7 · crew duty peak 28 · reserves 3</span>
+              </div>
+              <p class="panel__note mono">The demand maths is evidence the agent reasons from, not a cap applied to its answer.</p>
+            </div>
+
+            <!-- 4 -->
+            <div class="panel" role="tabpanel" id="sp-4" aria-labelledby="st-4" data-title="generate · readiness" hidden>
+              <div class="ready">
+                <p class="ready__state mono">Ready, with warnings</p>
+                <div class="ready__counts mono"><span><b>0</b>blockers</span><span><b>2</b>warnings</span><span><b>6/14</b>routes sampled</span></div>
+              </div>
+              <ul class="checks">
+                <li class="warn"><span class="mono">WARN</span>AME R. Pillai: licence expires 04 Oct, inside the window</li>
+                <li class="warn"><span class="mono">WARN</span>1 route lists an approval that only 3 of 9 aircraft hold</li>
+                <li><span class="mono">OK</span>Crew demand and duty pressure within available pool</li>
+                <li><span class="mono">OK</span>Route–aircraft compatibility from catalog and tenant rules</li>
+              </ul>
+              <p class="panel__note mono">Readiness is a forecast, not proof. Final legality is decided after generation.</p>
+            </div>
+
+            <!-- 5 -->
+            <div class="panel" role="tabpanel" id="sp-5" aria-labelledby="st-5" data-title="scheduling jobs · 7f3a" hidden>
+              <div class="jobcard">
+                <div class="jobcard__top mono"><span>JOB 7F3A</span><span class="chip chip--live mono">Running</span></div>
+                <div class="jobcard__phase"><span>Building crew pairings</span><span class="mono">phase 3 of 6</span></div>
+                <div class="meter"><i style="--p: 58%"></i></div>
+                <div class="jobcard__units mono"><span>24 / 42 route windows</span><span>started by ops.admin · 04:12 elapsed</span></div>
+                <ul class="feed mono">
+                  <li><span>04:10</span>Aircraft rotations complete · 8 tails</li>
+                  <li><span>03:52</span>VT-SKB held out: A-check due 03 Oct 14:20</li>
+                  <li><span>01:05</span>Readiness: 0 blockers, 2 warnings</li>
+                  <li><span>00:00</span>Job persisted · queued on schedule_generation</li>
+                </ul>
+                <div class="ui-actions"><span class="ui-btn">Cancel job</span><span class="ui-btn ui-btn--ghost">Open diagnostics</span></div>
+              </div>
+            </div>
+
+            <!-- 6 -->
+            <div class="panel" role="tabpanel" id="sp-6" aria-labelledby="st-6" data-title="schedule · validation" hidden>
+              <div class="ready">
+                <p class="ready__state mono">Schedule saved</p>
+                <div class="ready__counts mono"><span><b>196</b>flights</span><span><b>8</b>tails</span><span><b>31</b>crew</span></div>
+              </div>
+              <ul class="checks checks--grid">
+                <li><span class="mono">PASS</span>FDP and landing limits</li>
+                <li><span class="mono">PASS</span>Minimum rest</li>
+                <li><span class="mono">PASS</span>Night-duty runs</li>
+                <li><span class="mono">PASS</span>Licence valid on duty date</li>
+                <li><span class="mono">PASS</span>Maintenance due</li>
+                <li><span class="mono">PASS</span>Tail continuity</li>
+                <li><span class="mono">PASS</span>Crew continuity</li>
+                <li><span class="mono">PASS</span>Route approvals</li>
+              </ul>
+              <div class="empty mono"><b>If it had come back empty</b>“No flights generated: every aircraft in scope is past its A-check due date.” Saved as failed, with the reason attached.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 03 GUARDRAILS ============ -->
+    <section class="section section--rule guard" id="guardrails">
+      <div class="wrap">
+        <header class="section__head">
+          <p class="eyebrow reveal"><span class="idx">03</span>Where the AI stops</p>
+          <h2 class="h2 reveal">The planner proposes. <span class="accent">The rulebook decides.</span></h2>
+          <p class="lead reveal">SkyOpsHub is agentic where judgement helps and deterministic where the law applies. That boundary isn't a line in a policy document. It's written into the code.</p>
+        </header>
+
+        <div class="split">
+          <div class="side reveal">
+            <p class="side__label mono"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7"/><path d="M6.5 10.5 9 13l4.5-6"/></svg>The planning agent</p>
+            <ul class="side__list">
+              <li>Decides how many aircraft and crew to bring, and <em>which ones</em></li>
+              <li>Explains readiness, partial results and trade-offs</li>
+              <li>Chooses a response when a disruption is reported: replace, or delay</li>
+              <li>Explains why an imported aircraft type is ambiguous</li>
+            </ul>
+          </div>
+          <div class="split__axis" aria-hidden="true"><span class="mono">Boundary</span></div>
+          <div class="side side--rules reveal">
+            <p class="side__label mono"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="3.5" y="3.5" width="13" height="13"/><path d="M7 8h6M7 12h4"/></svg>The rule engine enforces</p>
+            <ul class="side__list">
+              <li>Flight-time, duty and landing caps per duty, and over rolling 7, 28, 90 and 365 days</li>
+              <li>Minimum rest and consecutive night duties</li>
+              <li>Type ratings, and licence and medical validity on the date of each duty</li>
+              <li>Maintenance status and next-check due dates</li>
+              <li>Aircraft–route approvals such as ETOPS 120 and RNP AR</li>
+              <li>Where every aircraft and crew member actually is</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="principle reveal">
+          <p class="principle__big">Rejects and explains.<br>Never quietly substitutes.</p>
+          <p class="principle__text">When the validator blocks an assignment, it names the rule, the person or the tail, and the time. It doesn't swap in a different pilot behind your back. And it doesn't pad or trim the agent's choices to make the numbers look tidy.</p>
+        </div>
+
+        <div class="loop reveal" data-loop>
+          <div class="loop__head">
+            <div>
+              <p class="mono loop__kicker">When the agent comes up short</p>
+              <h3 class="h3">A shortfall goes back to the agent, then to you. It never gets silently patched.</h3>
+            </div>
+            <button class="btn btn--ghost btn--sm" type="button" data-loop-replay>Replay</button>
+          </div>
+          <ol class="chat">
+            <li class="msg msg--agent"><span class="msg__who mono">Planning agent</span><p>Selecting 11 A320 captains for this route set.</p></li>
+            <li class="msg msg--rules"><span class="msg__who mono">Coverage check</span><p>Peak concurrency is 12 between 06:30 and 08:10. That's one short. Reconsider?</p></li>
+            <li class="msg msg--agent"><span class="msg__who mono">Planning agent</span><p>Holding at 11. The twelfth captain would only cover a 20-minute overlap on one morning. I'd rather report that gap than add a captain for it.</p></li>
+            <li class="msg msg--result"><span class="msg__who mono">Result</span><p>Shipped as chosen. Warning on the job: <b>coverage shortfall · A320 captain · 1</b>.</p></li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 04 RULEBOOK ============ -->
+    <section class="section section--rule rulebook" id="rulebook">
+      <div class="wrap">
+        <header class="section__head">
+          <p class="eyebrow reveal"><span class="idx">04</span>The rulebook</p>
+          <h2 class="h2 reveal">DGCA's limits, written as code.</h2>
+          <p class="lead reveal">The pilot rule pack encodes DGCA's CAR Section 7, Series J, Part III (Revision 1, January 2024), and cabin crew follow Part I. AMEs and ground crew get separate, configurable fatigue limits. These are the pilot numbers, and how the validator treats each one.</p>
+        </header>
+
+        <div class="limits">
+          <div class="limit reveal"><p class="limit__v"><span data-count="12">12</span><small>h</small></p><p class="limit__k">Minimum rest before a flight duty, or as long as the previous duty if that was longer</p><p class="limit__t mono">Blocks</p></div>
+          <div class="limit reveal"><p class="limit__v"><span data-count="2">2</span></p><p class="limit__k">Consecutive night duties at most, where a night duty touches 00:00–06:00</p><p class="limit__t mono">Blocks</p></div>
+          <div class="limit reveal"><p class="limit__v"><span data-count="10">10</span><small>h&nbsp;/&nbsp;2</small></p><p class="limit__k">Maximum duty period and landings on a night duty, with 8 h of flying</p><p class="limit__t mono">Blocks</p></div>
+          <div class="limit reveal"><p class="limit__v"><span data-count="35">35</span><small>h</small></p><p class="limit__k">Flight time in any 7 days, alongside 60 h of duty</p><p class="limit__t mono">Blocks</p></div>
+          <div class="limit reveal"><p class="limit__v"><span data-count="1000">1,000</span><small>h</small></p><p class="limit__k">Flight time in any 365 days, alongside 1,800 h of duty</p><p class="limit__t mono">Blocks</p></div>
+          <div class="limit reveal"><p class="limit__v"><span data-count="48">48</span><small>h</small></p><p class="limit__k">Weekly rest, or 60 h after more than three night duties in 168 h</p><p class="limit__t limit__t--flag mono">Flags a warning</p></div>
+        </div>
+        <p class="footnote mono reveal">“Blocks” means the assignment is rejected with the reason. “Flags” means the schedule is saved with a warning. SkyOpsHub is a planning tool: it isn't regulator-approved software and doesn't replace your compliance function.</p>
+
+        <div class="roster reveal" data-roster>
+          <div class="roster__intro">
+            <p class="mono loop__kicker">Try it</p>
+            <h3 class="h3">Be the planner for a minute.</h3>
+            <p>Pick a captain for each A320 sector on Wed 07 Oct. A simplified slice of the rule pack runs in your browser and answers the way the product does: legal or rejected, with the reason.</p>
+            <div class="roster__btns">
+              <button class="btn btn--primary btn--sm" type="button" data-roster-solve>Let the planner try</button>
+              <button class="btn btn--ghost btn--sm" type="button" data-roster-reset>Reset</button>
+            </div>
+            <p class="roster__score mono" data-roster-score aria-live="polite">0 of 4 sectors legally crewed</p>
+            <ul class="rules mono" data-rules aria-label="Rules checked in this demo">
+              <li data-r="rating">Type rating</li><li data-r="loc">Location</li><li data-r="rest">12 h rest</li>
+              <li data-r="fdp">Duty limit</li><li data-r="night">Night runs ≤ 2</li><li data-r="med">Medical on duty date</li>
+            </ul>
+          </div>
+          <div class="roster__board">
+            <div class="roster__table" data-roster-table role="group" aria-label="Assign a captain to each flight"></div>
+            <div class="roster__out mono" data-roster-out aria-live="polite"><p class="roster__hint">Select a captain for any flight to see the verdict.</p></div>
+          </div>
+          <noscript><p>This interactive demo needs JavaScript.</p></noscript>
+        </div>
+        <p class="footnote mono">The demo checks type rating, location, 12 h minimum rest, duty limits, consecutive nights and medical validity. Names, flights and tails are fictional.</p>
+      </div>
+    </section>
+
+    <!-- ============ 05 MASTER DATA ============ -->
+    <section class="section section--rule data" id="data">
+      <div class="wrap data__grid">
+        <header class="section__head data__head">
+          <p class="eyebrow reveal"><span class="idx">05</span>Master data</p>
+          <h2 class="h2 reveal">It won't guess what “B737” means.</h2>
+          <p class="lead reveal">In a crew or fleet spreadsheet, “B737” could mean a Boeing 737-800 or a 737 MAX 8. SkyOpsHub keeps the raw value, maps exact matches to the aircraft catalog, and stops on anything ambiguous until a person decides. Then it records who decided, when and why.</p>
+          <ul class="ticks reveal">
+            <li><b>Catalog names only.</b> Aircraft types are stored as the catalog's name, so “737 MAX” and “B737-8” can't become two different fleets.</li>
+            <li><b>Variants aren't assumed interchangeable.</b> A 737-800 stands in for a 737 MAX 8 only when a compatibility rule or your approval says so.</li>
+            <li><b>Routes state their requirements.</b> Crew qualifications, aircraft approvals and equipment. Only resources that meet them are offered.</li>
+            <li><b>Every decision is recorded.</b> Automatic matches and human calls are stored per airline, with the original value, reviewer, time and reason.</li>
+          </ul>
+        </header>
+
+        <div class="sheet hud reveal" data-sheet>
+          <div class="sheet__bar mono"><span class="sheet__file">crew_roster_oct.xlsx</span><span data-sheet-status>Importing…</span></div>
+          <div class="sheet__table" role="table" aria-label="Import preview">
+            <div class="sheet__row sheet__row--head mono" role="row"><span role="columnheader">ID</span><span role="columnheader">Name</span><span role="columnheader">Role</span><span role="columnheader">Base</span><span role="columnheader">Type rating</span><span role="columnheader">Status</span></div>
+            <div class="sheet__row" role="row" data-state="ok"><span class="mono">P-1042</span><span>A. Mehra</span><span>Captain</span><span class="mono">DEL</span><span class="mono">Airbus A320neo</span><span class="st mono">Matched</span></div>
+            <div class="sheet__row" role="row" data-state="ok"><span class="mono">P-1077</span><span>R. Iyer</span><span>Captain</span><span class="mono">BLR</span><span class="mono">Boeing 737-800</span><span class="st mono">Matched</span></div>
+            <div class="sheet__row" role="row" data-state="review" data-fix="Boeing 737 MAX 8"><span class="mono">P-1103</span><span>V. Menon</span><span>Captain</span><span class="mono">BOM</span><span class="mono raw">“B737”</span><span class="st mono">Review</span></div>
+            <div class="sheet__row" role="row" data-state="ok"><span class="mono">P-1189</span><span>N. Das</span><span>Captain</span><span class="mono">DEL</span><span class="mono">Airbus A320neo</span><span class="st mono">Matched</span></div>
+            <div class="sheet__row" role="row" data-state="review" data-fix="Boeing 737 MAX 8"><span class="mono">F-2214</span><span>K. Rao</span><span>First Officer</span><span class="mono">HYD</span><span class="mono raw">“737 MAX”</span><span class="st mono">Review</span></div>
+            <div class="sheet__row" role="row" data-state="ok"><span class="mono">C-3310</span><span>M. Fernandes</span><span>Cabin crew</span><span class="mono">GOI</span><span class="mono">Airbus A320neo</span><span class="st mono">Matched</span></div>
+          </div>
+          <div class="sheet__drawer" data-sheet-drawer>
+            <p class="mono sheet__dk">Needs a decision · row <b data-sheet-row>3</b></p>
+            <p class="sheet__dq"><span data-sheet-raw>“B737”</span> matches more than one catalog entry.</p>
+            <div class="ui-actions"><span class="ui-btn ui-btn--primary" data-sheet-pick>Use Boeing 737 MAX 8</span><span class="ui-btn">Correct</span><span class="ui-btn">Reject row</span></div>
+          </div>
+          <p class="sheet__audit mono" data-sheet-audit>&nbsp;</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 06 DURABLE JOBS ============ -->
+    <section class="section section--rule jobs" id="jobs">
+      <div class="wrap">
+        <header class="section__head section__head--split">
+          <p class="eyebrow reveal"><span class="idx">06</span>Durable jobs</p>
+          <h2 class="h2 reveal">Close the tab. The job keeps its own record.</h2>
+          <p class="lead reveal">Generating a week of flying can take minutes. Every run is written to the database before it starts, reports its real phase and activity, and ends as completed, partial, failed or cancelled, with the reason attached.</p>
+        </header>
+
+        <div class="jobs__grid">
+          <div class="jobs__table reveal" data-jobs>
+            <div class="jrow jrow--head mono"><span>Job</span><span>Window</span><span class="c-rt">Routes</span><span>Status</span><span class="hide-sm">Outcome</span></div>
+            <button class="jrow is-open" type="button" data-job="run"><span class="mono">7f3a</span><span class="mono">01–07 Oct</span><span class="mono c-rt">14</span><span><em class="st st--run mono">Running</em></span><span class="hide-sm">Crew pairings · 24 / 42 windows</span></button>
+            <button class="jrow" type="button" data-job="fail"><span class="mono">b398</span><span class="mono">21–26 Sep</span><span class="mono c-rt">12</span><span><em class="st st--fail mono">Failed</em></span><span class="hide-sm">No flights generated, with the reason</span></button>
+            <button class="jrow" type="button" data-job="partial"><span class="mono">2c11</span><span class="mono">14–20 Sep</span><span class="mono c-rt">9</span><span><em class="st st--part mono">Partial</em></span><span class="hide-sm">38 / 42 windows covered</span></button>
+            <button class="jrow" type="button" data-job="done"><span class="mono">91d0</span><span class="mono">07–13 Sep</span><span class="mono c-rt">9</span><span><em class="st st--done mono">Completed</em></span><span class="hide-sm">168 flights · 0 warnings</span></button>
+            <button class="jrow" type="button" data-job="cancel"><span class="mono">5e7b</span><span class="mono">07–13 Sep</span><span class="mono c-rt">9</span><span><em class="st st--cancel mono">Cancelled</em></span><span class="hide-sm">Stopped by user · worker task revoked</span></button>
+          </div>
+          <aside class="jobs__detail hud reveal" data-job-detail aria-live="polite"></aside>
+        </div>
+
+        <ul class="facts">
+          <li class="reveal"><b class="mono">01</b>Status comes from the database, not from a worker's memory.</li>
+          <li class="reveal"><b class="mono">02</b>Cancel revokes the worker task instead of leaving it running.</li>
+          <li class="reveal"><b class="mono">03</b>Failed, partial and cancelled runs can be retried.</li>
+          <li class="reveal"><b class="mono">04</b>A slow refresh shows as delayed, never as failed.</li>
+                  </ul>
+      </div>
+    </section>
+
+    <!-- ============ 07 TEAMS ============ -->
+    <section class="section teams paper" id="teams">
+      <div class="wrap">
+        <header class="section__head">
+          <p class="eyebrow reveal"><span class="idx">07</span>Who it's for</p>
+          <h2 class="h2 reveal">One operation, five points of view.</h2>
+        </header>
+
+        <div class="roles reveal" data-roles>
+          <div class="roles__tabs" role="tablist" aria-label="Teams">
+            <button role="tab" aria-selected="true" aria-controls="rp-1" id="rt-1"><span class="mono">A</span>Network planning</button>
+            <button role="tab" aria-selected="false" aria-controls="rp-2" id="rt-2" tabindex="-1"><span class="mono">B</span>Crew planning &amp; control</button>
+            <button role="tab" aria-selected="false" aria-controls="rp-3" id="rt-3" tabindex="-1"><span class="mono">C</span>Maintenance &amp; tech ops</button>
+            <button role="tab" aria-selected="false" aria-controls="rp-4" id="rt-4" tabindex="-1"><span class="mono">D</span>OCC &amp; leadership</button>
+            <button role="tab" aria-selected="false" aria-controls="rp-5" id="rt-5" tabindex="-1"><span class="mono">E</span>IT &amp; digital</button>
+          </div>
+          <div class="roles__panels">
+            <div class="role is-active" role="tabpanel" id="rp-1" aria-labelledby="rt-1">
+              <p class="role__q">“Can we fly this route set with the aircraft and crew we actually have next week?”</p>
+              <ul class="role__gets"><li>Route-scoped generation that stays within the routes you chose</li><li>Aircraft–route fit from catalog and compatibility rules, not string matching</li><li>A readiness read-out before you commit a run</li></ul>
+            </div>
+            <div class="role" role="tabpanel" id="rp-2" aria-labelledby="rt-2" hidden>
+              <p class="role__q">“Where does the pairing break, and which qualification is missing?”</p>
+              <ul class="role__gets"><li>Duty, rest and night limits enforced on every duty</li><li>Licence and rating validity checked against the date of the duty</li><li>Pilots, cabin crew, AMEs and ground crew in one model</li></ul>
+            </div>
+            <div class="role" role="tabpanel" id="rp-3" aria-labelledby="rt-3" hidden>
+              <p class="role__q">“Is anything being scheduled past a check that's due?”</p>
+              <ul class="role__gets"><li>An aircraft can't be flown past its next check's due time</li><li>Aircraft in maintenance status can't be assigned</li><li>Maintenance windows are checked for conflicts</li></ul>
+            </div>
+            <div class="role" role="tabpanel" id="rp-4" aria-labelledby="rt-4" hidden>
+              <p class="role__q">“When a plan fails, can we see why?”</p>
+              <ul class="role__gets"><li>Job history with reasons for failed and partial runs</li><li>Warnings and shortfalls reported, not buried</li><li>One airline-scoped source of schedule truth</li></ul>
+            </div>
+            <div class="role" role="tabpanel" id="rp-5" aria-labelledby="rt-5" hidden>
+              <p class="role__q">“Will this fit our data without becoming another spreadsheet?”</p>
+              <ul class="role__gets"><li>API-first backend with documented, airline-scoped endpoints</li><li>Excel templates in, and schedules exported as PDF, Excel or iCal</li><li>Tenant isolation down to PostgreSQL row-level security</li></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 08 STACK ============ -->
+    <section class="section section--rule stack" id="stack">
+      <div class="wrap">
+        <header class="section__head section__head--split">
+          <p class="eyebrow reveal"><span class="idx">08</span>Under the hood</p>
+          <h2 class="h2 reveal">Boring where it matters.</h2>
+          <p class="lead reveal">Scheduling is a correctness problem before it's an AI problem, and the architecture reflects that. Models reason. Solvers search. Plain, tested code has the final say.</p>
+        </header>
+
+        <div class="arch reveal">
+          <svg class="arch__svg" viewBox="0 0 1000 430" role="img" aria-labelledby="arch-t">
+            <title id="arch-t">SkyOpsHub architecture: the operations app calls a FastAPI backend; long work runs on Celery workers through Redis; the scheduling engine combines a planning agent, OR-Tools and a deterministic validator; everything is stored in PostgreSQL with row-level security.</title>
+            <defs>
+              <marker id="ah" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 8 4 0 8z" class="arch__head"/></marker>
+            </defs>
+            <g class="arch__edges">
+              <path id="e1" d="M190 198 H236" marker-end="url(#ah)"/>
+              <path id="e2" d="M440 160 C470 160 470 78 496 78" marker-end="url(#ah)"/>
+              <path id="e3" d="M440 238 C470 238 470 330 496 330" marker-end="url(#ah)"/>
+              <path id="e4" d="M720 330 H766" marker-end="url(#ah)"/>
+              <path id="e5" d="M720 78 H875 V126" marker-end="url(#ah)"/>
+              <path d="M340 276 V368" class="dash"/>
+              <path d="M610 370 V368" class="dash"/>
+              <path d="M875 344 V368" class="dash"/>
+            </g>
+            <g class="arch__pulses">
+              <circle r="3"><animateMotion dur="2.4s" repeatCount="indefinite"><mpath href="#e1"/></animateMotion></circle>
+              <circle r="3"><animateMotion dur="3s" repeatCount="indefinite" begin=".6s"><mpath href="#e2"/></animateMotion></circle>
+              <circle r="3"><animateMotion dur="3s" repeatCount="indefinite" begin="1.2s"><mpath href="#e3"/></animateMotion></circle>
+              <circle r="3"><animateMotion dur="1.8s" repeatCount="indefinite" begin=".3s"><mpath href="#e4"/></animateMotion></circle>
+              <circle r="3"><animateMotion dur="2.8s" repeatCount="indefinite" begin="1s"><mpath href="#e5"/></animateMotion></circle>
+            </g>
+            <g class="arch__nodes">
+              <g transform="translate(20 150)"><rect width="170" height="96"/><text x="16" y="32" class="t">Operations app</text><text x="16" y="56" class="s">Flutter · web, desktop</text><text x="16" y="76" class="s">tenant-aware sessions</text></g>
+              <g transform="translate(240 120)"><rect width="200" height="156"/><text x="16" y="32" class="t">FastAPI</text><text x="16" y="58" class="s">JWT · tenant resolution</text><text x="16" y="80" class="s">rate limits · envelopes</text><text x="16" y="102" class="s">one router per domain</text><text x="16" y="124" class="s">airline_id on every call</text></g>
+              <g transform="translate(500 30)" class="hi"><rect width="220" height="96"/><text x="16" y="32" class="t">Planning agent</text><text x="16" y="56" class="s">scope · readiness · recovery</text><text x="16" y="76" class="s">OpenRouter · embeddings</text></g>
+              <g transform="translate(500 290)"><rect width="220" height="80"/><text x="16" y="32" class="t">Jobs</text><text x="16" y="56" class="s">Redis · Celery workers</text></g>
+              <g transform="translate(770 130)" class="hi2"><rect width="210" height="214"/><text x="16" y="32" class="t">Scheduling engine</text><text x="16" y="58" class="s">route windows &amp; chains</text><text x="16" y="80" class="s">OR-Tools optimisation</text><text x="16" y="102" class="s">local priority scorer</text><line x1="16" x2="194" y1="124" y2="124" class="sep"/><text x="16" y="150" class="t2">Deterministic validator</text><text x="16" y="174" class="s">final gate</text><text x="16" y="194" class="s">rejects &amp; explains</text></g>
+              <g transform="translate(240 372)" class="db"><rect width="740" height="40"/><text x="16" y="25" class="lab">PostgreSQL · row-level security on every airline table · job state persisted first</text></g>
+            </g>
+          </svg>
+          <ol class="arch__stack mono" aria-hidden="true">
+            <li><b>Operations app</b><span>Flutter · web, desktop</span></li>
+            <li><b>FastAPI</b><span>JWT · tenant resolution · airline_id on every call</span></li>
+            <li class="split2"><div><b>Planning agent</b><span>scope · readiness · recovery</span></div><div><b>Jobs</b><span>Redis · Celery workers</span></div></li>
+            <li class="hi"><b>Scheduling engine</b><span>chains · OR-Tools · <em>deterministic validator</em></span></li>
+            <li class="db"><b>PostgreSQL</b><span>row-level security · job state persisted first</span></li>
+          </ol>
+        </div>
+
+        <dl class="specs">
+          <div class="reveal"><dt class="mono">Tenancy</dt><dd>Every business table carries <code>airline_id</code>, enforced at the API, in the ORM and by PostgreSQL row-level security.</dd></div>
+          <div class="reveal"><dt class="mono">Engine</dt><dd>OR-Tools integer programming plus aircraft-rotation and crew-pairing chain building, with a deterministic validator as the last word.</dd></div>
+          <div class="reveal"><dt class="mono">Agents</dt><dd>Planner and scope selector run on hosted models through OpenRouter. Priority scoring runs locally.</dd></div>
+          <div class="reveal"><dt class="mono">Jobs</dt><dd>Redis and Celery for execution, PostgreSQL for truth. Job state is persisted before work is dispatched.</dd></div>
+          <div class="reveal"><dt class="mono">Access</dt><dd>A platform admin onboards each airline under contract and provisions its admins. There's no public sign-up.</dd></div>
+          <div class="reveal"><dt class="mono">Tests</dt><dd><span data-count="350">350</span>+ automated backend tests, over half of them on the scheduling engine and validator.</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- ============ 09 BUILD LOG ============ -->
+    <section class="section section--rule buildlog" id="log">
+      <div class="wrap">
+        <header class="section__head section__head--split">
+          <p class="eyebrow reveal"><span class="idx">09</span>Build log</p>
+          <h2 class="h2 reveal">In active development. Here's the flight log.</h2>
+          <p class="lead reveal">SkyOpsHub generates schedules end to end today, tested on realistic sample fleets, crews and routes. Parts of it are still being hardened, and this is exactly which parts.</p>
+        </header>
+
+        <div class="log__grid">
+          <div class="board hud reveal" data-board>
+            <div class="board__head mono"><span>System</span><span>Status</span></div>
+            <ul class="board__rows">
+              <li><span class="board__item">Fleet, crew &amp; route data</span><span class="board__st" data-flap="OPERATIONAL" data-s="op"></span></li>
+              <li><span class="board__item">Import quality review</span><span class="board__st" data-flap="OPERATIONAL" data-s="op"></span></li>
+              <li><span class="board__item">Auto · guided · manual scope</span><span class="board__st" data-flap="OPERATIONAL" data-s="op"></span></li>
+              <li><span class="board__item">Readiness checks</span><span class="board__st" data-flap="OPERATIONAL" data-s="op"></span></li>
+              <li><span class="board__item">Durable generation jobs</span><span class="board__st" data-flap="OPERATIONAL" data-s="op"></span></li>
+              <li><span class="board__item">DGCA duty &amp; rest validation</span><span class="board__st" data-flap="OPERATIONAL" data-s="op"></span></li>
+              <li><span class="board__item">Solver-native chains</span><span class="board__st" data-flap="TRIAL" data-s="trial"></span></li>
+              <li><span class="board__item">Schedule editing</span><span class="board__st" data-flap="IN PROGRESS" data-s="wip"></span></li>
+              <li><span class="board__item">Disruption recovery</span><span class="board__st" data-flap="IN PROGRESS" data-s="wip"></span></li>
+              <li><span class="board__item">MEL &amp; defect data</span><span class="board__st" data-flap="PLANNED" data-s="plan"></span></li>
+              <li><span class="board__item">SSO · crew &amp; MRO links</span><span class="board__st" data-flap="PLANNED" data-s="plan"></span></li>
+            </ul>
+          </div>
+
+          <ol class="timeline">
+            <li class="reveal"><time class="mono" datetime="2026-09-21">21 Sep 2026</time><h3>Credentials checked against the duty, not the calendar</h3><p>A licence that lapses on day three can no longer be rostered on day five. Long jobs also stopped logging people out halfway through, and progress now reports real work units.</p></li>
+            <li class="reveal"><time class="mono" datetime="2026-09-07">07 Sep 2026</time><h3>Auto scope became agent-owned</h3><p>Code stopped topping up or trimming the agent's picks. Shortfalls go back to the agent once, then to your warnings.</p></li>
+            <li class="reveal"><time class="mono" datetime="2026-05-23">May 2026</time><h3>Honest job states</h3><p>Route scope made explicit in every request. A slow status refresh is no longer reported as a failed generation.</p></li>
+            <li class="reveal"><time class="mono" datetime="2026-05-09">May 2026</time><h3>Import quality gate and aircraft compatibility</h3><p>Ambiguous aircraft types pause for review. Eligibility comes from catalog references and airline rules instead of string matching.</p></li>
+            <li class="reveal"><time class="mono" datetime="2026-04-28">Apr–May 2026</time><h3>Rotations and pairings with continuity</h3><p>Deterministic chain building, plus an opt-in solver-native mode where OR-Tools chooses the rotation and pairing variables.</p></li>
+            <li class="reveal"><time class="mono" datetime="2026-01-27">Jan 2026</time><h3>Multi-tenant foundation</h3><p>FastAPI backend, PostgreSQL with row-level security, and the Flutter operations app.</p></li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 10 FAQ ============ -->
+    <section class="section section--rule faq" id="faq">
+      <div class="wrap faq__grid">
+        <header class="section__head">
+          <p class="eyebrow reveal"><span class="idx">10</span>Straight answers</p>
+          <h2 class="h2 reveal">Questions airlines ask first.</h2>
+          <p class="lead reveal">Something missing? Write to <a class="link" href="mailto:admin@skyopshub.in">admin@skyopshub.in</a>.</p>
+        </header>
+        <div class="qa">
+          <details class="reveal" open>
+            <summary>Does the AI make the final call?</summary>
+            <div><p>No. The agent decides the resource scope (how many aircraft and crew, and which) and explains readiness and results. Legality, maintenance, compatibility and continuity are decided by deterministic code. That code can reject an assignment, but it never quietly swaps in its own.</p></div>
+          </details>
+          <details class="reveal">
+            <summary>Which regulations does it encode?</summary>
+            <div><p>DGCA's flight-duty rules: CAR Section 7, Series J, Part III for pilots and Part I for cabin crew. That covers per-duty flight-time, duty and landing caps, rolling 7, 28, 90 and 365-day limits, minimum rest, consecutive night duties and weekly rest. Weekly rest is currently flagged as a warning rather than blocked. AMEs and ground crew get separate, configurable fatigue limits. SkyOpsHub isn't regulator-approved software.</p></div>
+          </details>
+          <details class="reveal">
+            <summary>Can we sign up and try it?</summary>
+            <div><p>Not self-serve. Each airline is onboarded under contract into its own isolated tenant, with its fleet, crew and routes loaded and reviewed. Request early access and we'll set up a walkthrough.</p></div>
+          </details>
+          <details class="reveal">
+            <summary>Will it replace our ops-control stack?</summary>
+            <div><p>Not on day one, and we won't pretend otherwise. The sensible path is staged: one route group, one fleet family, one planning window, compared against how your team plans today.</p></div>
+          </details>
+          <details class="reveal">
+            <summary>Is our data kept apart from other airlines?</summary>
+            <div><p>Yes. Isolation is enforced in three places: tenant-scoped API routes, an <code>airline_id</code> on every business table, and PostgreSQL row-level security.</p></div>
+          </details>
+          <details class="reveal">
+            <summary>Does it handle disruptions?</summary>
+            <div><p>Partly. You can report a disruption against a schedule (a crew member unavailable, an aircraft out of service, a delayed route) and the planning agent chooses a response, such as a replacement or a delay, and applies it. Re-optimising the rest of the schedule around it is still being built.</p></div>
+          </details>
+          <details class="reveal">
+            <summary>Is it SOC 2 or ISO 27001 certified?</summary>
+            <div><p>Not yet, and we don't claim it. Security documentation and a formal compliance programme are on the roadmap ahead of any production go-live.</p></div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 11 FOUNDER ============ -->
+    <section class="section section--rule founder" id="founder">
+      <div class="wrap founder__grid">
+        <div class="founder__card hud reveal">
+          <div class="founder__avatar mono" aria-hidden="true">AC</div>
+          <p class="founder__name">Aryan Chachra</p>
+          <p class="founder__role mono">Founder · builds agentic AI systems</p>
+          <div class="founder__links">
+            <a class="link mono" href="https://www.linkedin.com/in/aryan-chachra-519927232" target="_blank" rel="noopener">LinkedIn ↗</a>
+            <a class="link mono" href="https://github.com/AryanChachra/SkyOpsHub" target="_blank" rel="noopener">GitHub ↗</a>
+          </div>
+        </div>
+        <div class="founder__note">
+          <p class="eyebrow reveal"><span class="idx">11</span>A note from the founder</p>
+          <div class="note reveal">
+            <p>I work on agentic AI systems, and I've always had a soft spot for aviation. The closer I looked at how airlines actually plan, with crew rosters stitched together in spreadsheets, maintenance tracked somewhere else and rules changing faster than the tools, the more obvious the gap became.</p>
+            <p>The easy version of this product is a chatbot that writes schedules. I didn't want to build that. In aviation, a plan you can't explain is a plan you can't use. So SkyOpsHub lets AI do what it's good at, weighing options and explaining trade-offs, and leaves the law to code that can be read, tested and audited.</p>
+            <p>It's early, and I'll always be clear about what's finished and what isn't. If you plan flights, crew or maintenance at an Indian carrier, I'd love to learn how you work.</p>
+          </div>
+          <p class="sig reveal">Aryan</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 12 EARLY ACCESS ============ -->
+    <section class="section access" id="access">
+      <div class="wrap access__grid">
+        <div class="access__copy">
+          <p class="eyebrow reveal"><span class="idx">12</span>Early access</p>
+          <h2 class="h2 reveal">Help shape it before it's finished.</h2>
+          <p class="lead reveal">We're looking for a small number of Indian carriers and operators to build this with us. One route group, one fleet family and one planning window to start.</p>
+          <ol class="next reveal">
+            <li><b class="mono">01</b>We reply within 24–48 hours.</li>
+            <li><b class="mono">02</b>A 30-minute walkthrough on sample data.</li>
+            <li><b class="mono">03</b>If it fits, a scoped trial on your own routes.</li>
+          </ol>
+        </div>
+        <form class="form hud reveal" data-access-form novalidate>
+          <div class="form__row">
+            <label class="field"><span class="field__l mono">Name *</span><input name="name" autocomplete="name" required placeholder="Your full name"></label>
+            <label class="field"><span class="field__l mono">Work email *</span><input name="workEmail" type="email" autocomplete="email" required placeholder="name@airline.com"></label>
+          </div>
+          <div class="form__row">
+            <label class="field"><span class="field__l mono">Airline / company *</span><input name="companyName" autocomplete="organization" required placeholder="Airline or operator"></label>
+            <label class="field"><span class="field__l mono">Your team</span>
+              <select name="role">
+                <option value="">Select…</option>
+                <option>Network planning</option>
+                <option>Crew planning / control</option>
+                <option>Maintenance / tech ops</option>
+                <option>OCC / operations leadership</option>
+                <option>IT / digital</option>
+                <option>Investor / partner</option>
+                <option>Other</option>
+              </select>
+            </label>
+          </div>
+          <label class="field"><span class="field__l mono">What would you want to try first?</span><textarea name="message" rows="4" placeholder="Routes, fleet type, the planning headache you'd like gone…"></textarea></label>
+          <label class="hp" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off"></label>
+          <div class="form__foot">
+            <button class="btn btn--primary" type="submit" data-submit>Request early access <svg class="arr" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11m-4-4 4 4-4 4"/></svg></button>
+            <p class="form__msg mono" data-form-msg role="status" aria-live="polite"></p>
+          </div>
+          <p class="form__alt mono">Prefer email? <a class="link" href="mailto:admin@skyopshub.in?subject=SkyOpsHub%20early%20access">admin@skyopshub.in</a></p>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer__top">
+        <div class="footer__brand">
+          <img src="assets/img/logo-horizontal.png" width="465" height="126" alt="SkyOpsHub — AI-driven airline solutions">
+          <p>Airline schedules that show their working. Built in India, for Indian carriers first.</p>
+        </div>
+        <nav class="footer__cols" aria-label="Footer">
+          <div>
+            <p class="mono footer__h">Product</p>
+            <a href="#how">How it works</a>
+            <a href="#guardrails">Guardrails</a>
+            <a href="#rulebook">Rulebook</a>
+            <a href="#jobs">Durable jobs</a>
+          </div>
+          <div>
+            <p class="mono footer__h">Company</p>
+            <a href="#log">Build log</a>
+            <a href="#founder">Founder</a>
+            <a href="#faq">FAQ</a>
+            <a href="#access">Early access</a>
+          </div>
+          <div>
+            <p class="mono footer__h">Contact</p>
+            <a href="mailto:admin@skyopshub.in">admin@skyopshub.in</a>
+            <a href="https://www.linkedin.com/in/aryan-chachra-519927232" target="_blank" rel="noopener">LinkedIn ↗</a>
+            <a href="https://github.com/AryanChachra/SkyOpsHub" target="_blank" rel="noopener">GitHub ↗</a>
+          </div>
+        </nav>
+      </div>
+      <svg class="footer__big" viewBox="0 0 1000 124" aria-hidden="true" focusable="false"><text x="0" y="112" textLength="1000" lengthAdjust="spacingAndGlyphs">SKYOPSHUB</text></svg>
+      <div class="footer__bottom mono">
+        <span>© <span data-year>2026</span> SkyOpsHub</span>
+        <span>Status · in active development</span>
+        <span>28.5562°N 77.1000°E</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/core.js" defer></script>
+  <script src="assets/js/hero.js" defer></script>
+  <script src="assets/js/demos.js" defer></script>
+  <script src="assets/js/form.js" defer></script>
+</body>
+</html>

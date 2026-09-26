@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en-IN" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Request early access · SkyOpsHub</title>
+  <meta name="description" content="Request early access to SkyOpsHub, crew and fleet scheduling with a DGCA rule engine, built for Indian carriers.">
+  <meta name="theme-color" content="#0A1929">
+  <link rel="canonical" href="https://skyopshub.in/form/">
+  <meta property="og:title" content="Request early access · SkyOpsHub">
+  <meta property="og:image" content="https://skyopshub.in/assets/img/og-card.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/img/favicon-32.png">
+  <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+  <link rel="preload" href="../assets/fonts/archivo-var.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body class="solo">
+  <header class="nav is-stuck" data-nav>
+    <div class="nav__inner wrap">
+      <a class="brand" href="../" aria-label="SkyOpsHub home">
+        <img class="brand__mark" src="../assets/img/mark.png" width="139" height="112" alt="">
+        <span class="brand__word"><span class="brand__sky">SkyOps</span>Hub</span>
+      </a>
+      <div class="nav__end">
+        <span class="status-pill"><i></i>In development</span>
+        <a class="btn btn--ghost btn--sm" href="../">← Back to site</a>
+      </div>
+    </div>
+  </header>
+  <main id="main">
+    <section class="section access access--solo">
+      <div class="wrap access__grid">
+        <div class="access__copy">
+          <p class="eyebrow"><span class="eyebrow__dot"></span>Early access</p>
+          <h1 class="h2">Help shape it before it's finished.</h1>
+          <p class="lead">SkyOpsHub builds flight schedules from your fleet, crew and routes, with an AI planner for resource choices and a deterministic DGCA rule engine for legality. We're working with a small number of Indian carriers and operators while it's in active development.</p>
+          <ol class="next">
+            <li><b class="mono">01</b>We reply within 24–48 hours.</li>
+            <li><b class="mono">02</b>A 30-minute walkthrough on sample data.</li>
+            <li><b class="mono">03</b>If it fits, a scoped trial on your own routes.</li>
+          </ol>
+        </div>
+        <form class="form hud" data-access-form novalidate>
+          <div class="form__row">
+            <label class="field"><span class="field__l mono">Name *</span><input name="name" autocomplete="name" required placeholder="Your full name"></label>
+            <label class="field"><span class="field__l mono">Work email *</span><input name="workEmail" type="email" autocomplete="email" required placeholder="name@airline.com"></label>
+          </div>
+          <div class="form__row">
+            <label class="field"><span class="field__l mono">Airline / company *</span><input name="companyName" autocomplete="organization" required placeholder="Airline or operator"></label>
+            <label class="field"><span class="field__l mono">Your team</span>
+              <select name="role">
+                <option value="">Select…</option>
+                <option>Network planning</option>
+                <option>Crew planning / control</option>
+                <option>Maintenance / tech ops</option>
+                <option>OCC / operations leadership</option>
+                <option>IT / digital</option>
+                <option>Investor / partner</option>
+                <option>Other</option>
+              </select>
+            </label>
+          </div>
+          <label class="field"><span class="field__l mono">What would you want to try first?</span><textarea name="message" rows="4" placeholder="Routes, fleet type, the planning headache you'd like gone…"></textarea></label>
+          <label class="hp" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off"></label>
+          <div class="form__foot">
+            <button class="btn btn--primary" type="submit" data-submit>Request early access <svg class="arr" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11m-4-4 4 4-4 4"/></svg></button>
+            <p class="form__msg mono" data-form-msg role="status" aria-live="polite"></p>
+          </div>
+          <p class="form__alt mono">Prefer email? <a class="link" href="mailto:admin@skyopshub.in?subject=SkyOpsHub%20early%20access">admin@skyopshub.in</a></p>
+        </form>
+      </div>
+    </section>
+  </main>
+  <footer class="footer footer--slim">
+    <div class="wrap footer__bottom mono">
+      <span>© <span data-year>2026</span> SkyOpsHub</span>
+      <span>Status · in active development</span>
+      <a href="mailto:admin@skyopshub.in">admin@skyopshub.in</a>
+    </div>
+  </footer>
+  <script src="../assets/js/core.js" defer></script>
+  <script src="../assets/js/form.js" defer></script>
+</body>
+</html>
