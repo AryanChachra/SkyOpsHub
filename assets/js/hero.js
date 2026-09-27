@@ -62,6 +62,10 @@
   svg.setAttribute('viewBox', minX.toFixed(1) + ' ' + minY.toFixed(1) + ' ' + W.toFixed(1) + ' ' + H.toFixed(1));
   svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
   var VB = { x: minX, y: minY };
+  // The whole network, and the part of it on screen (zoomed on an airport).
+  var BASE = { x: minX, y: minY, w: W, h: H };
+  var view = { x: minX, y: minY, w: W, h: H };
+  var curZ = 1;
   var g = el('g', { 'aria-hidden': 'true' }, svg);
   [10, 15, 20, 25, 30].forEach(function (lat) {
     var y = proj(lat, 0)[1];
@@ -92,6 +96,7 @@
 
   // airports
   var gApt = el('g', {}, svg);
+  var lastTouch = 0, touchTimer = 0;
   Object.keys(apt).forEach(function (code) {
     var a = apt[code];
     var grp = el('g', { class: 'apt ' + (a.hub ? 'hub' : a.routes.length ? '' : 'minor'), transform: 'translate(' + a.x.toFixed(1) + ' ' + a.y.toFixed(1) + ')', tabindex: '0', role: 'button', 'aria-label': a.code + ', ' + a.name + ', ' + a.routes.length + ' routes in this run' }, gApt);
@@ -102,12 +107,70 @@
     a.node = grp;
     var show = function () { focusApt(a); };
     var hide = function () { focusApt(null); };
+    a.at = 'translate(' + a.x.toFixed(1) + ' ' + a.y.toFixed(1) + ')';
     grp.addEventListener('mouseenter', show); grp.addEventListener('focus', show);
-    grp.addEventListener('mouseleave', hide); grp.addEventListener('blur', hide);
-    grp.addEventListener('touchstart', function () { show(); setTimeout(hide, 2200); }, { passive: true });
+    // A tap also sends emulated mouse events, some of them a leave; the timer
+    // decides when a tapped airport lets go.
+    grp.addEventListener('mouseleave', function () { if (Date.now() - lastTouch > 800) hide(); });
+    grp.addEventListener('blur', function () { if (Date.now() - lastTouch > 800) hide(); });
+    grp.addEventListener('touchstart', function () {
+      lastTouch = Date.now(); show();
+      clearTimeout(touchTimer); touchTimer = setTimeout(hide, 3600);
+    }, { passive: true });
   });
 
+  /* Zoom on the airport under the pointer. The airport stays where it is on
+     screen (so it stays under the cursor) and the view closes in on it far
+     enough to keep every airport it's routed to inside the map. Dots, labels
+     and planes keep their size; lines keep their width. */
+  function zoomFor(a) {
+    if (!a.routes.length) return null;
+    var fx = (a.x - view.x) / view.w, fy = (a.y - view.y) / view.h;
+    var z = 3, mx = 30, my = 22;
+    a.routes.forEach(function (i) {
+      var p = arcs[i].a === a ? arcs[i].b : arcs[i].a;
+      if (p.x < a.x) z = Math.min(z, fx * BASE.w / (a.x - p.x + mx));
+      if (p.x > a.x) z = Math.min(z, (1 - fx) * BASE.w / (p.x - a.x + mx));
+      if (p.y < a.y) z = Math.min(z, fy * BASE.h / (a.y - p.y + my));
+      if (p.y > a.y) z = Math.min(z, (1 - fy) * BASE.h / (p.y - a.y + my));
+    });
+    if (z < 1.25) return null;
+    var w = BASE.w / z, h = BASE.h / z;
+    return { x: a.x - fx * w, y: a.y - fy * h, w: w, h: h };
+  }
+  function applyView(r) {
+    view = r;
+    curZ = BASE.w / r.w;
+    svg.setAttribute('viewBox', r.x.toFixed(2) + ' ' + r.y.toFixed(2) + ' ' + r.w.toFixed(2) + ' ' + r.h.toFixed(2));
+    var k = curZ > 1.001 ? ' scale(' + (1 / curZ).toFixed(4) + ')' : '';
+    Object.keys(apt).forEach(function (c) { apt[c].node.setAttribute('transform', apt[c].at + k); });
+    svg.classList.toggle('is-zoomed', curZ > 1.05);
+    if (!running) planes.forEach(place);
+  }
+  var zoomAnim = 0, zoomOutTimer = 0;
+  function zoomTo(target) {
+    cancelAnimationFrame(zoomAnim);
+    var from = { x: view.x, y: view.y, w: view.w, h: view.h };
+    if (reduce) { applyView(target); return; }
+    var t0 = 0, dur = 480;
+    var step = function (ts) {
+      if (!t0) t0 = ts;
+      var t = Math.min(1, (ts - t0) / dur), e = 1 - Math.pow(1 - t, 3);
+      applyView({ x: from.x + (target.x - from.x) * e, y: from.y + (target.y - from.y) * e, w: from.w + (target.w - from.w) * e, h: from.h + (target.h - from.h) * e });
+      if (t < 1) zoomAnim = requestAnimationFrame(step);
+    };
+    zoomAnim = requestAnimationFrame(step);
+  }
+
   function focusApt(a) {
+    clearTimeout(zoomOutTimer);
+    if (a) {
+      var target = zoomFor(a);
+      if (target) zoomTo(target);
+    } else {
+      // A short grace period, so moving between airports doesn't bounce.
+      zoomOutTimer = setTimeout(function () { zoomTo(BASE); }, 260);
+    }
     svg.classList.toggle('is-focus', !!a);
     Object.keys(apt).forEach(function (c) { apt[c].node.classList.remove('is-hot'); });
     arcs.forEach(function (r) { r.path.classList.remove('is-hot'); });
@@ -116,15 +179,26 @@
     a.routes.forEach(function (i) { arcs[i].path.classList.add('is-hot'); arcs[i].a.node.classList.add('is-hot'); arcs[i].b.node.classList.add('is-hot'); });
     if (tip) {
       var box = svg.getBoundingClientRect();
-      var sc = Math.min(box.width / W, box.height / H);
-      var ox = (box.width - W * sc) / 2, oy = (box.height - H * sc) / 2;
+      // The airport keeps its place on screen while the view zooms, so the
+      // current view says where it is.
+      var sc = Math.min(box.width / view.w, box.height / view.h);
+      var ox = (box.width - view.w * sc) / 2, oy = (box.height - view.h * sc) / 2;
       var ns = a.lat.toFixed(2) + '°N  ' + a.lon.toFixed(2) + '°E';
       var peers = a.routes.map(function (i) { return arcs[i].a === a ? arcs[i].b.code : arcs[i].a.code; });
       tip.innerHTML = '<b>' + a.code + '</b>' + a.name + '<br>' + ns + '<br>' + (peers.length ? 'Routes in run: ' + peers.join(' · ') : 'Not in this run');
-      var px = ox + (a.x - VB.x) * sc, py = oy + (a.y - VB.y) * sc;
-      tip.style.left = Math.max(92, Math.min(box.width - 92, px)) + 'px';
-      tip.style.top = py + 'px';
+      var px = ox + (a.x - view.x) * sc, py = oy + (a.y - view.y) * sc;
+      // Measure, then keep the whole card inside the map: above the airport
+      // when there's room, otherwise below it, and clamped at the sides.
       tip.hidden = false;
+      var host = tip.offsetParent || svg.parentNode;
+      var hb = host.getBoundingClientRect();
+      var sx = box.left - hb.left, sy = box.top - hb.top;
+      var tw = tip.offsetWidth, th = tip.offsetHeight, pad = 8, gap = 14;
+      var x = Math.max(pad, Math.min(hb.width - tw - pad, sx + px - tw / 2));
+      var above = sy + py - th - gap, below = sy + py + gap;
+      var y = above >= pad ? above : Math.max(pad, Math.min(hb.height - th - pad, below));
+      tip.style.left = x + 'px';
+      tip.style.top = y + 'px';
     }
   }
 
@@ -157,8 +231,8 @@
     var pt = p.r.path.getPointAtLength(s);
     var ahead = p.r.path.getPointAtLength(Math.max(0, Math.min(L, s + p.dir * 1.5)));
     var ang = Math.atan2(ahead.y - pt.y, ahead.x - pt.x) * 180 / Math.PI;
-    p.g.setAttribute('transform', 'translate(' + pt.x.toFixed(1) + ' ' + pt.y.toFixed(1) + ') rotate(' + ang.toFixed(1) + ') scale(.9)');
-    var seg = Math.min(46, L * 0.45);
+    p.g.setAttribute('transform', 'translate(' + pt.x.toFixed(1) + ' ' + pt.y.toFixed(1) + ') rotate(' + ang.toFixed(1) + ') scale(' + (0.9 / curZ).toFixed(4) + ')');
+    var seg = Math.min(46 / curZ, L * 0.45);
     p.trail.setAttribute('stroke-dasharray', seg + ' ' + (L + seg));
     p.trail.setAttribute('stroke-dashoffset', p.dir > 0 ? (seg - s) : (-s));
     var fade = Math.min(1, p.t * 8, (1 - p.t) * 8);

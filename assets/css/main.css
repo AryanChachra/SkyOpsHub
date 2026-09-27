@@ -348,6 +348,9 @@ p { margin: 0; }
 .netmap { width: 100%; height: 100%; }
 .netmap .grat { stroke: rgba(31,182,255,.10); stroke-width: 1; fill: none; stroke-dasharray: 2 4; }
 .netmap .grat-l { fill: rgba(224,224,224,.28); font: 500 8.5px var(--f-mono); letter-spacing: .08em; }
+.netmap .grat, .netmap .arc, .netmap .trail { vector-effect: non-scaling-stroke; }
+.netmap .grat-l { transition: opacity .3s; }
+.netmap.is-zoomed .grat-l { opacity: 0; }
 .netmap .arc { fill: none; stroke: rgba(31,182,255,.22); stroke-width: 1; transition: stroke .3s, opacity .3s; }
 .netmap .arc.is-hot { stroke: var(--accent); stroke-width: 1.4; }
 .netmap.is-focus .arc:not(.is-hot) { opacity: .15; }
@@ -368,7 +371,7 @@ p { margin: 0; }
   position: absolute; z-index: 3; pointer-events: none;
   background: rgba(10,25,41,.94); border: 1px solid var(--line-3); padding: 9px 11px;
   font-size: 10.5px; letter-spacing: .06em; line-height: 1.55; color: var(--text-2); min-width: 170px;
-  transform: translate(-50%, calc(-100% - 14px));
+  max-width: calc(100% - 16px);
 }
 .netmap__tip b { color: var(--white); font-weight: 500; display: block; font-size: 11.5px; letter-spacing: .1em; }
 
